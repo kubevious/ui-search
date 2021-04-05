@@ -7,9 +7,3 @@ export {
     FilterComponentData,
     AutocompleteValues,
 } from './Search/types'
-
-//utils
-export {
-    fetchAutocompleteValues,
-    fetchAutocomplete,
-} from './Search/util'
