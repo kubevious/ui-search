@@ -11,7 +11,6 @@ export const SearchInput: React.FunctionComponent<SearchInputProps> = ({ updateS
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const input = e.target.value
-        // sharedState.set("search_input", input)
         setCriteria(input)
         updateSearchCriteria(input);
     }

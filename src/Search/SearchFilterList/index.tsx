@@ -1,11 +1,11 @@
 import _ from "lodash"
 
 import React from "react"
-import { FilterItem, FilterComponentData, SearchData } from "../../types"
+import { FilterMetaData, FilterComponentData, SearchData } from "../../types"
 import { SearchFilterExpander } from "../SearchFilterExpander"
 
 export interface SearchFilterListProps {
-    filterList: FilterItem[]
+    filterList: FilterMetaData[]
     searchData: SearchData
     addFilter(
         searchId: string,
@@ -29,7 +29,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
     return (
         <div className="filter-list filter-box">
             {renderableFilters &&
-                renderableFilters.map((filter: FilterItem, index) => {
+                renderableFilters.map((filter, index) => {
                     const ComponentType = filter.component!;
 
                     const sourceFilterSearchData =

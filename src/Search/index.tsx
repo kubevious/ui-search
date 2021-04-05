@@ -5,7 +5,7 @@ import { sharedState } from "@kubevious/ui-framework/dist/global"
 
 import "./styles.scss"
 import { IDiagramService } from "@kubevious/ui-middleware"
-import { SearchProps, SearchData, FilterValue, FilterItem, FilterComponentData } from "../types"
+import { SearchData, FilterValue, FilterMetaData, FilterComponentData } from "../types"
 import { SearchInput } from "./SearchInput"
 import { SearchFilters } from "./SearchFilters"
 import { SearchResults } from "./SearchResults"
@@ -18,18 +18,20 @@ interface TSearchState {
 
 const isTesting = process.env.IS_TESTING;
 
+
+export type SearchProps = {
+    filterList: FilterMetaData[]
+}
+
 export class Search extends ClassComponent<
     SearchProps,
     TSearchState,
     IDiagramService
 > {
     fetchSearchResults() {
-        // const criteria = sharedState.get("search_input")
         const { searchData } = this.state
+
         let backendData = {}
-        // if (criteria) {
-            // backendData = { criteria }
-        // }
 
         for (let componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId];
@@ -42,9 +44,12 @@ export class Search extends ClassComponent<
                     backendData[componentMetadata.payload] = componentPayload
                 }
             }
+            else
+            {
+                console.error("MISSING SEARCH METADATA: ", componentData.searchId);
+            }
         }
 
-        // sharedState.set("actived_filters", Object.keys(backendData))
         console.log(
             "[SEARCH QUERY DATA] ",
             JSON.stringify(backendData, null, 4)
@@ -92,9 +97,9 @@ export class Search extends ClassComponent<
         this.service.fetchAutocompleteValues(type, criteria, cb)
     }
 
-    private _metadataDict: Record<string, FilterItem>
-    private _filterList: FilterItem[]
-
+    private _filterList: FilterMetaData[]
+    private _metadataDict: Record<string, FilterMetaData>
+    
     initialSearchData: SearchData
 
     initialState: TSearchState

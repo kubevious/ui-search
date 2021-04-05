@@ -1,20 +1,11 @@
-
-export type FilterObjectType = {
-    key?: string
-    value?: string
-    kind?: string
-    count?: number
+export interface FilterMetaData {
+    searchId: string
+    payload: string
+    title: string
+    component?: React.ComponentType<FilterComponentProps>
+    data?: FilterData
+    isEditable?: boolean
 }
-
-export type FilterType = FilterObjectType | string
-
-export type SearchProps = {
-    filterList: FilterItem[]
-}
-
-// TODO: Move types above to /Filters/**/types.ts
-
-/********/
 
 export interface FilterData {
     isEnabled: boolean
@@ -36,16 +27,6 @@ export interface FilterComponentProps {
             | React.MouseEvent<SVGSVGElement, MouseEvent>
     ) => void
 }
-
-export interface FilterItem {
-    searchId: string
-    payload: string
-    title: string
-    component?: React.ComponentType<FilterComponentProps>
-    data?: FilterData
-    isEditable?: boolean
-}
-
 /*******/
 
 export interface SearchData {
@@ -77,6 +58,9 @@ export interface SelectedData {
     markers?: string[]
 }
 
+
+// TODO: Move types below to /Filters/**/types.ts
+
 export interface AutocompleteValues {
     labels: {
         keys: [];
@@ -87,3 +71,15 @@ export interface AutocompleteValues {
         values: [];
     };
 }
+
+
+
+export type FilterObjectType = {
+    key?: string
+    value?: string
+    kind?: string
+    count?: number
+}
+
+export type FilterType = FilterObjectType | string
+

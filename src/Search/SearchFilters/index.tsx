@@ -2,10 +2,10 @@ import React, { FC } from "react"
 import cx from "classnames"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
 
-import { FilterItem, FilterValue } from "../../types"
+import { FilterMetaData, FilterValue } from "../../types"
 
 export const SearchFilters: FC<{
-    filterList: FilterItem[]
+    filterList: FilterMetaData[]
     activeFilters: FilterValue[]
     removeFilter: (searchId: string, filterId: string | null) => void
     toogleVisibilityFilter: (searchId: string, filterId: string | null) => void

@@ -9,7 +9,7 @@ export { FilterSearchWarnings } from './Filters/SearchWarnings'
 
 // types
 export {
-    FilterItem,
+    FilterMetaData,
     FilterType,
     FilterComponentData,
     AutocompleteValues,
