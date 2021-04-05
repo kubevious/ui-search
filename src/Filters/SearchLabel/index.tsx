@@ -1,13 +1,20 @@
 import React, { Fragment, useState, useEffect, FC } from "react"
 import Autocomplete from "react-autocomplete"
-import { AutocompleteValues } from "../types"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
-import { fetchAutocomplete, fetchAutocompleteValues } from "../utils"
+// import { fetchAutocomplete } from "../utils"
 
-import { FilterType } from '../../types';
+import { IDiagramService } from "@kubevious/ui-middleware"
+import { useService } from "@kubevious/ui-framework"
 
-import { FilterComponentProps } from "../types"
+import { AutocompleteValues, FilterComponentProps } from '../../types';
+
 import { INITIAL_AUTOCOMPLETE } from "../constants"
+
+// interface AutocompleteTarget
+// {
+
+// }
+
 
 export const FilterSearchLabel: FC<FilterComponentProps> = ({
     addFilter,
@@ -19,6 +26,24 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         filter?: string
         value?: string
     }>({})
+
+    const [autocompleteKeyValue, setAutocompleteKeyValue] = useState<string | null>(null);
+    const [autocompleteKeyResults, setAutocompleteKeyResults] = useState<string[]>([]);
+
+    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
+
+        // const value = autocompleteKeyValue;
+
+        if (autocompleteKeyValue) {
+            service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
+                console.error("**** DATA", data);
+            })
+        } else {
+            setAutocompleteKeyResults([]);
+        }
+
+    }, [ autocompleteKeyValue ])
+
 
     const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
         INITIAL_AUTOCOMPLETE
@@ -47,15 +72,15 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         })
     }, [])
 
-    const handleFilterInput = (value: string, title: FilterType): void => {
-        if (title === "key") {
-            setCurrentKey(value)
-            fetchAutocomplete("labels", value)
+    const handleKeyInput = (value: string): void => {
+        setCurrentKey(value);
+        setAutocompleteKeyValue(value);
+    }
 
-            return
-        }
+    const handleValueInput = (value: string): void => {
         setCurrentValue(value)
-        fetchAutocompleteValues("labels", currentKey, value)
+        // fetchAutocompleteValues("labels", currentKey, value)
+        // setAutocompleteKeyValue(value);
     }
 
     const addInputField = (key?: string): void => {
@@ -83,10 +108,10 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                 <label>Label</label>
                 <Autocomplete
                     getItemValue={(value) => value}
-                    items={autocomplete.labels.keys}
+                    items={autocompleteKeyResults}
                     value={currentKey}
-                    onChange={(e) => handleFilterInput(e.target.value, "key")}
-                    onSelect={(val) => handleFilterInput(val, "key")}
+                    onChange={(e) => handleKeyInput(e.target.value)}
+                    onSelect={(val) => handleKeyInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => (
                         <div className="autocomplete" children={items} />
@@ -95,15 +120,16 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                         <input disabled={!!editedLabels.filter} {...props} />
                     )}
                     onMenuVisibilityChange={() =>
-                        fetchAutocomplete("labels", currentKey)
+                        handleKeyInput(currentKey)
+                        // fetchAutocomplete("labels", currentKey)
                     }
                 />
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocomplete.labels.values}
                     value={currentValue}
-                    onChange={(e) => handleFilterInput(e.target.value, "value")}
-                    onSelect={(val) => handleFilterInput(val, "value")}
+                    onChange={(e) => handleValueInput(e.target.value)}
+                    onSelect={(val) => handleValueInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => (
                         <div className="autocomplete" children={items} />
@@ -112,7 +138,8 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                         <input disabled={!currentKey.trim()} {...props} />
                     )}
                     onMenuVisibilityChange={() =>
-                        fetchAutocomplete("labels", currentValue)
+                        handleValueInput(currentValue)
+                        // fetchAutocomplete("labels", currentValue)
                     }
                 />
             </Fragment>

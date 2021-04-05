@@ -250,7 +250,11 @@ export class Search extends ClassComponent<
 
     private _setFullTextCriteria(value: string)
     {
-        this.addFilter('criteria', null, `Search: ${value}`, value);
+        if (!value) {
+            this.removeAllFilters('criteria')
+        } else {
+            this.addFilter('criteria', null, `Search: ${value}`, value);
+        }
     }
 
 
