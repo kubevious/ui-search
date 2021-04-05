@@ -1,7 +1,3 @@
-export type List = {
-    payload: string
-    shownValue: string
-}
 
 export type FilterObjectType = {
     key?: string
@@ -69,11 +65,6 @@ export interface FilterValue {
     isEnabled: boolean
 }
 
-export interface FilterEntry {
-    caption: string
-    value: any
-}
-
 export interface SelectedData {
     dn: string
     id?: number
@@ -95,16 +86,3 @@ export interface AutocompleteValues {
         values: [];
     };
 }
-
-export type EditorItem = {
-    script?: string;
-    target?: string;
-    name?: string;
-    propagate?: boolean;
-    shape?: string;
-    color?: string;
-    item_count?: number;
-    error_count?: number;
-    enabled?: boolean;
-    is_current?: boolean;
-};
