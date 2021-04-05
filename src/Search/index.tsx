@@ -5,7 +5,7 @@ import { sharedState } from "@kubevious/ui-framework/dist/global"
 
 import "./styles.scss"
 import { IDiagramService } from "@kubevious/ui-middleware"
-import { SearchProps, SearchData, FilterValue, FilterItem } from "./types"
+import { SearchProps, SearchData, FilterValue, FilterItem, FilterComponentData } from "./types"
 import { SearchInput } from "./SearchInput"
 import { SearchFilters } from "./SearchFilters"
 import { SearchResults } from "./SearchResults"
@@ -24,36 +24,52 @@ export class Search extends ClassComponent<
     IDiagramService
 > {
     fetchSearchResults() {
-        const criteria = sharedState.get("search_input")
+        // const criteria = sharedState.get("search_input")
         const { searchData } = this.state
         let backendData = {}
-        if (criteria) {
-            backendData = { criteria }
-        }
+        // if (criteria) {
+            // backendData = { criteria }
+        // }
 
         for (let componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId]
 
-            for (let filterData of _.values(componentData.filters)) {
-                if (filterData.isEnabled) {
-                    if (!backendData[componentMetadata.payload]) {
-                        backendData[componentMetadata.payload] = {}
-                    }
+            const componentPayload = this._buildComponentQuery(componentData);
 
-                    backendData[componentMetadata.payload][
-                        filterData.filterId
-                    ] = filterData.value
-                }
+            if (_.isNotNullOrUndefined(componentPayload))
+            {
+                backendData[componentMetadata.payload] = componentPayload
             }
         }
 
-        sharedState.set("actived_filters", Object.keys(backendData))
+        // sharedState.set("actived_filters", Object.keys(backendData))
         console.log(
             "[SEARCH QUERY DATA] ",
             JSON.stringify(backendData, null, 4)
         )
 
         this.fetchResults(backendData)
+    }
+
+    private _buildComponentQuery(componentData: FilterComponentData) : any | null
+    {
+        if (componentData.defaultFilter) {
+            return componentData.defaultFilter.value;
+        }
+
+        const backendData = {};
+
+        for (let filterData of _.values(componentData.filters)) {
+            if (filterData.isEnabled) {
+                backendData[filterData.filterId] = filterData.value
+            }
+        }
+
+        if (_.keys(backendData).length == 0) {
+            return null;
+        }
+
+        return backendData;
     }
 
     fetchAutocompleteKeys(
@@ -103,6 +119,7 @@ export class Search extends ClassComponent<
                 (x) => x.searchId,
                 (x) => ({
                     searchId: x.searchId,
+                    defaultFilter: null,
                     filters: {},
                 })
             ),
@@ -121,7 +138,8 @@ export class Search extends ClassComponent<
         this.removeFilter = this.removeFilter.bind(this)
         this.removeAllFilters = this.removeAllFilters.bind(this)
         this.toogleVisibilityFilter = this.toogleVisibilityFilter.bind(this)
-        this.getAllFilters = this.getAllFilters.bind(this)
+
+        this._setFullTextCriteria = this._setFullTextCriteria.bind(this);
     }
 
     fetchResults(criteria: any): void {
@@ -142,11 +160,12 @@ export class Search extends ClassComponent<
         if (!searchData.components[searchId]) {
             searchData.components[searchId] = {
                 searchId: searchId,
+                defaultFilter: null,
                 filters: {},
             }
         }
 
-        searchData.components[searchId].filters[filterId] = {
+        const filterValue : FilterValue = {
             searchId: searchId,
             filterId: filterId,
             caption: caption,
@@ -154,14 +173,24 @@ export class Search extends ClassComponent<
             isEnabled: true,
         }
 
+        if (filterId) {
+            searchData.components[searchId].filters[filterId] = filterValue;
+        } else {
+            searchData.components[searchId].defaultFilter = filterValue;
+        }
+
         this._handleSearchDataChange()
     }
 
-    removeFilter(searchId: string, filterId: string) {
+    removeFilter(searchId: string, filterId: string | null) {
         const { searchData } = this.state
 
         if (searchData.components[searchId]) {
-            delete searchData.components[searchId].filters[filterId]
+            if (filterId) {
+                delete searchData.components[searchId].filters[filterId]
+            } else {
+                searchData.components[searchId].defaultFilter = null;
+            }
         }
 
         this._handleSearchDataChange()
@@ -171,20 +200,11 @@ export class Search extends ClassComponent<
         const { searchData } = this.state
 
         if (searchData.components[searchId]) {
+            searchData.components[searchId].defaultFilter = null,
             searchData.components[searchId].filters = {}
         }
 
         this._handleSearchDataChange()
-    }
-
-    getAllFilters(searchId: string): FilterValue[] {
-        const { searchData } = this.state
-
-        if (searchData.components[searchId]) {
-            return _.values(searchData.components[searchId].filters)
-        }
-
-        return []
     }
 
     private _handleSearchDataChange() {
@@ -194,6 +214,9 @@ export class Search extends ClassComponent<
 
         let activeFilters: FilterValue[] = []
         for (let componentData of _.values(searchData.components)) {
+            if (componentData.defaultFilter) {
+                activeFilters.push(componentData.defaultFilter);
+            }
             activeFilters = _.concat(
                 activeFilters,
                 _.values(componentData.filters)
@@ -216,12 +239,19 @@ export class Search extends ClassComponent<
         this._handleSearchDataChange()
     }
 
+    private _setFullTextCriteria(value: string)
+    {
+        this.addFilter('criteria', 'value', `Search: ${value}`, value);
+    }
+
+
     render() {
         const { activeFilters, searchData } = this.state
 
         return (
             <div data-testid="search" className="Search-wrapper p-40 overflow-hide">
-                <SearchInput />
+                <SearchInput
+                    updateSearchCriteria={this._setFullTextCriteria} />
                 <SearchFilters
                     filterList={this._filterList}
                     activeFilters={activeFilters}

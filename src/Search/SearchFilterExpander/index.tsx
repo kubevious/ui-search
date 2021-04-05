@@ -1,16 +1,16 @@
+import _ from 'the-lodash'
 import React from "react"
 import cx from "classnames"
-import { FilterItem } from "../types"
-import { sharedState } from "@kubevious/ui-framework/dist/global"
+import { FilterComponentData, FilterItem } from "../types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 
 export const SearchFilterExpander: React.FunctionComponent<{
+    data: FilterComponentData
     filter: FilterItem
     removeAllFilters: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
-}> = ({ filter, removeAllFilters, children }) => {
-    const activedFilters = sharedState.get("actived_filters") || []
-    const isActive = activedFilters.includes(filter.payload)
+}> = ({ data, filter, removeAllFilters, children }) => {
+    const isActive = (_.keys(data.filters).length > 0);
     return (
         <details open key={filter.payload}>
             <summary

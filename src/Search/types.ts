@@ -53,7 +53,8 @@ export interface SearchData {
 }
 
 export interface FilterComponentData {
-    searchId: string
+    searchId: string,
+    defaultFilter: FilterValue | null,
     filters: Record<string, FilterValue>
 }
 

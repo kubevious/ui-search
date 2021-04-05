@@ -1,15 +1,19 @@
 import React, { useState } from "react"
-import { sharedState } from "@kubevious/ui-framework/dist/global"
-import { fetchSearchResult } from "../util"
 
-export const SearchInput = () => {
+
+export interface SearchInputProps {
+    updateSearchCriteria: (value: string) => void
+}
+
+
+export const SearchInput: React.FunctionComponent<SearchInputProps> = ({ updateSearchCriteria }) => {
     const [criteria, setCriteria] = useState<string>("")
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const input = e.target.value
-        sharedState.set("search_input", input)
+        // sharedState.set("search_input", input)
         setCriteria(input)
-        fetchSearchResult()
+        updateSearchCriteria(input);
     }
     return (
         <div className="form-group has-success">

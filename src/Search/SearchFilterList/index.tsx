@@ -33,6 +33,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                         searchData.components[filter.searchId]
                     const filterSearchData: FilterComponentData = {
                         searchId: sourceFilterSearchData.searchId,
+                        defaultFilter: null,
                         filters: {},
                     }
                     for (let filter of _.values(
@@ -67,6 +68,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                             key={index}
                             filter={filter}
                             removeAllFilters={onFilterRemoveAll}
+                            data={filterSearchData}
                         >
                             <filter.component
                                 data={filterSearchData}
