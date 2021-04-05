@@ -1,4 +1,7 @@
-import { List } from "../../Header/types"
+export type List = {
+    payload: string
+    shownValue: string
+}
 
 export type KindListValue = {
     title: string

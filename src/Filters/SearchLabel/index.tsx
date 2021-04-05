@@ -9,7 +9,7 @@ import { FilterType } from '../../types';
 import { FilterComponentProps } from "../types"
 import { INITIAL_AUTOCOMPLETE } from "../constants"
 
-export const SearchLabel: FC<FilterComponentProps> = ({
+export const FilterSearchLabel: FC<FilterComponentProps> = ({
     addFilter,
     removeFilter,
 }) => {

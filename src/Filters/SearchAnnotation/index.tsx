@@ -8,7 +8,7 @@ import { INITIAL_AUTOCOMPLETE } from "../constants"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
 import { fetchAutocomplete, fetchAutocompleteValues } from "../utils"
 
-export const SearchAnnotation: FC<FilterComponentProps> = ({
+export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
     addFilter,
     removeFilter,
 }) => {

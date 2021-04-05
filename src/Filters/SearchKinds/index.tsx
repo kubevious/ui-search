@@ -4,7 +4,7 @@ import _ from "lodash"
 import { FilterComponentProps } from "../types"
 import { KIND_TO_USER_MAPPING } from "@kubevious/helpers/dist/docs"
 
-export const SearchKinds: FC<FilterComponentProps> = ({
+export const FilterSearchKinds: FC<FilterComponentProps> = ({
     data,
     addFilter,
     removeFilter,
@@ -49,10 +49,10 @@ export const SearchKinds: FC<FilterComponentProps> = ({
     return (
         <div className="inner-items">
             {kinds.values &&
-                kinds.values.map((item) => {
+                kinds.values.map((item, index) => {
                     return (
                         <button
-                            key={item.payload}
+                            key={index}
                             className={
                                 selectedKinds[item.payload]
                                     ? "selected-filter"

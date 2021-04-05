@@ -1,12 +1,11 @@
 import React, { FC, useState, useEffect } from "react"
 import { MarkerPreview } from "@kubevious/ui-rule-engine"
-import { MarkersList } from "./types"
+import { MarkersList, MarkerItem } from "./types"
 import _ from "lodash"
 import { FilterComponentProps } from "../types"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
-import { EditorItem } from "../../../types"
 
-export const SearchMarkers: FC<FilterComponentProps> = ({
+export const FilterSearchMarkers: FC<FilterComponentProps> = ({
     data,
     addFilter,
     removeFilter,
@@ -28,9 +27,9 @@ export const SearchMarkers: FC<FilterComponentProps> = ({
     }, [])
 
     const markerFilterChange = (title: string): void => {
-        const newMarker: EditorItem = _.filter(
+        const newMarker: MarkerItem = _.filter(
             markers.values,
-            (marker: EditorItem) => marker.name === title
+            (marker: MarkerItem) => marker.name === title
         )[0]
 
         if (!newMarker.name) {

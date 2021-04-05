@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { FILTER_ENTRIES_WARNINGS } from "./constants"
 import { FilterComponentProps, FilterEntry } from "../types"
 
-export const SearchWarnings: FC<FilterComponentProps> = ({
+export const FilterSearchWarnings: FC<FilterComponentProps> = ({
     data,
     addFilter,
     removeFilter,

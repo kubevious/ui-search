@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { FILTER_ENTRIES_ERRORS } from "./constants"
 import { FilterComponentProps, FilterEntry } from "../types"
 
-export const SearchErrors: FC<FilterComponentProps> = ({
+export const FilterSearchErrors: FC<FilterComponentProps> = ({
     data,
     addFilter,
     removeFilter,
