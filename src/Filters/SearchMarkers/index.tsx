@@ -9,7 +9,6 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({
     data,
     addFilter,
     removeFilter,
-    removeAllFilters,
 }) => {
     const [markers, setMarkers] = useState<MarkersList>({
         payload: "markers",

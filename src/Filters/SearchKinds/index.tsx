@@ -7,7 +7,6 @@ import { KIND_TO_USER_MAPPING } from "@kubevious/helpers/dist/docs"
 export const FilterSearchKinds: FC<FilterComponentProps> = ({
     data,
     addFilter,
-    removeFilter,
     removeAllFilters,
 }) => {
     const selectedKinds = data.filters
