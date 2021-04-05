@@ -2,17 +2,17 @@ import React, { FC } from "react"
 import cx from "classnames"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
 
-import { FilterItem, FilterValue } from "../types"
+import { FilterItem, FilterValue } from "../../types"
 
 export const SearchFilters: FC<{
     filterList: FilterItem[]
     activeFilters: FilterValue[]
-    removeFilter: (searchId: string, filterId: string) => void
-    toogleVisibilityFilter: (searchId: string, filterId: string) => void
+    removeFilter: (searchId: string, filterId: string | null) => void
+    toogleVisibilityFilter: (searchId: string, filterId: string | null) => void
 }> = ({ filterList, activeFilters, removeFilter, toogleVisibilityFilter }) => {
     const handleEditFilter = (
         type: string,
-        filter: string,
+        filter: string | null,
         value: any
     ): void => {
         sharedState.set(`edited_filter_${type}`, {

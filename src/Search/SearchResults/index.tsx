@@ -3,7 +3,7 @@ import { DnShortcutComponent } from "@kubevious/ui-components"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
 import { LIMITED_RESULTS_MSG, NO_ITEMS_MATCHING_MSG, NO_SEARCH_RESULT_MSG } from "../constants"
 import { isEmptyArray } from "../util"
-import { SelectedData } from "../types"
+import { SelectedData } from "../../types"
 
 export const SearchResults = () => {
     const [result, setResult] = useState<SelectedData[]>([])

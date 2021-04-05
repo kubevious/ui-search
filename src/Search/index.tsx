@@ -5,7 +5,7 @@ import { sharedState } from "@kubevious/ui-framework/dist/global"
 
 import "./styles.scss"
 import { IDiagramService } from "@kubevious/ui-middleware"
-import { SearchProps, SearchData, FilterValue, FilterItem, FilterComponentData } from "./types"
+import { SearchProps, SearchData, FilterValue, FilterItem, FilterComponentData } from "../types"
 import { SearchInput } from "./SearchInput"
 import { SearchFilters } from "./SearchFilters"
 import { SearchResults } from "./SearchResults"
@@ -32,13 +32,15 @@ export class Search extends ClassComponent<
         // }
 
         for (let componentData of _.values(searchData.components)) {
-            const componentMetadata = this._metadataDict[componentData.searchId]
-
-            const componentPayload = this._buildComponentQuery(componentData);
-
-            if (_.isNotNullOrUndefined(componentPayload))
+            const componentMetadata = this._metadataDict[componentData.searchId];
+            if (componentMetadata)
             {
-                backendData[componentMetadata.payload] = componentPayload
+                const componentPayload = this._buildComponentQuery(componentData);
+
+                if (_.isNotNullOrUndefined(componentPayload))
+                {
+                    backendData[componentMetadata.payload] = componentPayload
+                }
             }
         }
 
@@ -61,7 +63,9 @@ export class Search extends ClassComponent<
 
         for (let filterData of _.values(componentData.filters)) {
             if (filterData.isEnabled) {
-                backendData[filterData.filterId] = filterData.value
+                if (filterData.filterId) {
+                    backendData[filterData.filterId] = filterData.value
+                }
             }
         }
 
@@ -155,7 +159,7 @@ export class Search extends ClassComponent<
         })
     }
 
-    addFilter(searchId: string, filterId: string, caption: string, value: any) {
+    addFilter(searchId: string, filterId: string | null, caption: string, value: any) {
         const { searchData } = this.state
         if (!searchData.components[searchId]) {
             searchData.components[searchId] = {
@@ -241,7 +245,7 @@ export class Search extends ClassComponent<
 
     private _setFullTextCriteria(value: string)
     {
-        this.addFilter('criteria', 'value', `Search: ${value}`, value);
+        this.addFilter('criteria', null, `Search: ${value}`, value);
     }
 
 

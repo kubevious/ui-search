@@ -1,7 +1,7 @@
 import _ from 'the-lodash'
 import React from "react"
 import cx from "classnames"
-import { FilterComponentData, FilterItem } from "../types"
+import { FilterComponentData, FilterItem } from "../../types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
 

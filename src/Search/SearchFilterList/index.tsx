@@ -1,9 +1,8 @@
 import _ from "lodash"
 
 import React from "react"
-import { FilterComponentData, SearchData } from "../types"
+import { FilterItem, FilterComponentData, SearchData } from "../../types"
 import { SearchFilterExpander } from "../SearchFilterExpander"
-import { FilterItem } from "../types"
 
 export interface SearchFilterListProps {
     filterList: FilterItem[]
@@ -25,10 +24,14 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
     removeFilter,
     removeAllFilters,
 }) => {
+    const renderableFilters = filterList.filter(x => x.component);
+
     return (
         <div className="filter-list filter-box">
-            {filterList &&
-                filterList.map((filter: FilterItem, index) => {
+            {renderableFilters &&
+                renderableFilters.map((filter: FilterItem, index) => {
+                    const ComponentType = filter.component!;
+
                     const sourceFilterSearchData =
                         searchData.components[filter.searchId]
                     const filterSearchData: FilterComponentData = {
@@ -39,7 +42,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                     for (let filter of _.values(
                         sourceFilterSearchData.filters
                     )) {
-                        if (filter.isEnabled) {
+                        if (filter.isEnabled && filter.filterId) {
                             filterSearchData.filters[filter.filterId] = filter
                         }
                     }
@@ -70,7 +73,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                             removeAllFilters={onFilterRemoveAll}
                             data={filterSearchData}
                         >
-                            <filter.component
+                            <ComponentType
                                 data={filterSearchData}
                                 addFilter={onFilterAdd}
                                 removeFilter={onFilterRemove}

@@ -41,7 +41,7 @@ export interface FilterItem {
     searchId: string
     payload: string
     title: string
-    component: React.ComponentType<FilterComponentProps>
+    component?: React.ComponentType<FilterComponentProps>
     data?: FilterData
     isEditable?: boolean
 }
@@ -60,7 +60,7 @@ export interface FilterComponentData {
 
 export interface FilterValue {
     searchId: string
-    filterId: string
+    filterId: string | null
     caption: string
     value: any
     isEnabled: boolean

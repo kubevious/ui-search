@@ -1,4 +1,4 @@
-import { FilterType } from "./types"
+import { FilterType } from "../types"
 
 export const keyCheck = (el: FilterType, key: string): boolean => {
     return typeof el !== "string" && el.key === key

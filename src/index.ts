@@ -6,4 +6,4 @@ export {
     FilterType,
     FilterComponentData,
     AutocompleteValues,
-} from './Search/types'
+} from './types'
