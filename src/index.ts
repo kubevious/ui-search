@@ -1,1 +1,1 @@
-export const TEST=123;
+export { Search } from './Search'
