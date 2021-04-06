@@ -10,13 +10,12 @@ export const SearchFilters: FC<{
     removeFilter: (searchId: string, filterId: string | null) => void;
     toogleVisibilityFilter: (searchId: string, filterId: string | null) => void;
 }> = ({ filterList, activeFilters, removeFilter, toogleVisibilityFilter }) => {
-    const handleEditFilter = (type: string, filter: string | null, value: any): void => {
+    const handleEditFilter = (type: string, filter: string | null, value: any, elementRef?: any): void => {
         sharedState.set(`edited_filter_${type}`, {
             filter,
             value,
         });
-        const ref = sharedState.get(`${type}_ref`);
-        window.scrollTo(0, ref.current.offsetTop);
+        !!elementRef && window.scrollTo(0, elementRef.current.offsetTop);
     };
 
     const renderActiveFilter = (val: FilterValue) => {
@@ -34,7 +33,7 @@ export const SearchFilters: FC<{
                 {filterComponent?.isEditable && (
                     <button
                         className="filter-btn edit"
-                        onClick={() => handleEditFilter(val.searchId, val.filterId, val.value)}
+                        onClick={() => handleEditFilter(val.searchId, val.filterId, val.value, val.ref)}
                     ></button>
                 )}
                 <button

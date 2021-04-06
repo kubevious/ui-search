@@ -20,6 +20,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
 
     const [autocompleteValue, setAutocompleteValue] = useState<string | null>(null);
     const [autocompleteValueResults, setAutocompleteValueResults] = useState<string[]>([]);
+    const annotationsRef = useRef(null);
 
     useService<IDiagramService>(
         { kind: 'diagram' },
@@ -58,11 +59,6 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
             }
         });
     });
-    const annotationsRef = useRef(null);
-
-    useEffect(() => {
-        sharedState.set('annotations_ref', annotationsRef);
-    }, []);
 
     const handleKeyInput = (value: string): void => {
         setCurrentKey(value);
@@ -75,7 +71,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
     };
 
     const addInputField = (key?: string): void => {
-        addFilter(key || currentKey, `${key || currentKey}=${currentValue}`, currentValue);
+        addFilter(key || currentKey, `${key || currentKey}=${currentValue}`, currentValue, annotationsRef);
         setCurrentValue('');
         setCurrentKey('');
         setEditedAnnotations({});

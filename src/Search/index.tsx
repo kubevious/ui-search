@@ -128,7 +128,13 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
         });
     }
 
-    private addFilter(searchId: string, filterId: string | null, caption: string, value: any) {
+    private addFilter(
+        searchId: string,
+        filterId: string | null,
+        caption: string,
+        value: any,
+        ref?: React.MutableRefObject<null>,
+    ) {
         const { searchData } = this.state;
         if (!searchData.components[searchId]) {
             searchData.components[searchId] = {
@@ -144,6 +150,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
             caption: caption,
             value: value,
             isEnabled: true,
+            ref: ref,
         };
 
         if (filterId) {

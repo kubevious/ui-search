@@ -6,7 +6,7 @@ export interface FilterEntry {
 }
 export interface FilterComponentProps {
     data: FilterComponentData;
-    addFilter: (filterId: string, caption: string, value: any) => void;
+    addFilter: (filterId: string, caption: string, value: any, ref?: React.MutableRefObject<null>) => void;
     removeFilter: (filterId: string) => void;
     removeAllFilters: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<SVGSVGElement, MouseEvent>,

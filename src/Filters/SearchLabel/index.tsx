@@ -21,6 +21,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
 
     const [autocompleteValue, setAutocompleteValue] = useState<string | null>(null);
     const [autocompleteValueResults, setAutocompleteValueResults] = useState<string[]>([]);
+    const labelsRef = useRef(null);
 
     useService<IDiagramService>(
         { kind: 'diagram' },
@@ -71,7 +72,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
     };
 
     const addInputField = (key?: string): void => {
-        addFilter(key || currentKey, `${key || currentKey}=${currentValue}`, currentValue);
+        addFilter(key || currentKey, `${key || currentKey}=${currentValue}`, currentValue, labelsRef);
         setCurrentValue('');
         setCurrentKey('');
         setEditedLabels({});
@@ -85,12 +86,6 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         setEditedLabels({});
         sharedState.set('edited_filter_labels', null);
     };
-
-    const labelsRef = useRef(null);
-
-    useEffect(() => {
-        sharedState.set('labels_ref', labelsRef);
-    }, []);
 
     return (
         <div className="filter-input-box">
