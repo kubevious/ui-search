@@ -26,7 +26,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
 
     useService<IDiagramService>({ kind: 'diagram' }, (service) => {
         if (autocompleteKey) {
-            service.autocompleteLabelKeys(autocompleteKey, (data) => {
+            service.autocompleteAnnotationKeys(autocompleteKey, (data) => {
                 setAutocompleteKeyResults(data);
             })
         } else {
@@ -37,7 +37,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
 
     useService<IDiagramService>({ kind: 'diagram' }, (service) => {
         if (autocompleteKey && autocompleteValue) {
-            service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {
+            service.autocompleteAnnotationValues(autocompleteKey, autocompleteValue, (data) => {
                 setAutocompleteValueResults(data);
             })
         } else {
