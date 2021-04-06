@@ -205,13 +205,20 @@ export class Search extends ClassComponent<
 
         let activeFilters: FilterValue[] = []
         for (let componentData of _.values(searchData.components)) {
-            if (componentData.defaultFilter) {
-                activeFilters.push(componentData.defaultFilter);
+            const componentMetadata = this._metadataDict[componentData.searchId];
+            if (componentMetadata)
+            {
+                if (componentMetadata.component)
+                {
+                    if (componentData.defaultFilter) {
+                        activeFilters.push(componentData.defaultFilter);
+                    }
+                    activeFilters = _.concat(
+                        activeFilters,
+                        _.values(componentData.filters)
+                    )
+                }
             }
-            activeFilters = _.concat(
-                activeFilters,
-                _.values(componentData.filters)
-            )
         }
 
         this.setState({

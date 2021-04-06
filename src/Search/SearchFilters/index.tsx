@@ -21,7 +21,7 @@ export const SearchFilters: FC<{
         })
     }
 
-    const renderActiveFilters = (val: FilterValue) => {
+    const renderActiveFilter = (val: FilterValue) => {
         const filterComponent = filterList.find(
             (filterValue) => filterValue.searchId === val.searchId
         )
@@ -69,7 +69,7 @@ export const SearchFilters: FC<{
 
     return (
         <div className="active-filters">
-            <>{activeFilters.map((val) => renderActiveFilters(val))}</>
+            <>{activeFilters.map((val) => renderActiveFilter(val))}</>
         </div>
     )
 }
