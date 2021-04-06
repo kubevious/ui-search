@@ -35,7 +35,6 @@
     "@kubevious/ui-rule-engine": "^1.0.23",
     "classnames": "^2.2.6",
     "react-autocomplete": "^1.8.1",
-    "react-router-dom": "^5.2.0",
     "the-lodash": "^2.0.9",
     "the-promise": "^2.0.4"
   },
