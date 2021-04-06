@@ -1,7 +1,6 @@
 import _ from "the-lodash"
 import React from "react"
 import { ClassComponent } from "@kubevious/ui-framework"
-import { sharedState } from "@kubevious/ui-framework/dist/global"
 
 import "./styles.scss"
 import { IDiagramService } from "@kubevious/ui-middleware"
@@ -28,35 +27,6 @@ export class Search extends ClassComponent<
     TSearchState,
     IDiagramService
 > {
-    private fetchSearchResults() {
-        const { searchData } = this.state
-
-        let backendData = {}
-
-        for (let componentData of _.values(searchData.components)) {
-            const componentMetadata = this._metadataDict[componentData.searchId];
-            if (componentMetadata)
-            {
-                const componentPayload = this._buildComponentQuery(componentData);
-
-                if (_.isNotNullOrUndefined(componentPayload))
-                {
-                    backendData[componentMetadata.payload] = componentPayload
-                }
-            }
-            else
-            {
-                console.error("MISSING SEARCH METADATA: ", componentData.searchId);
-            }
-        }
-
-        // console.log(
-        //     "[SEARCH QUERY DATA] ",
-        //     JSON.stringify(backendData, null, 4)
-        // )
-
-        this.fetchResults(backendData)
-    }
 
     private _buildComponentQuery(componentData: FilterComponentData) : any | null
     {
@@ -84,9 +54,6 @@ export class Search extends ClassComponent<
     private _filterList: FilterMetaData[]
     private _metadataDict: Record<string, FilterMetaData>
     
-    initialSearchData: SearchData
-
-    initialState: TSearchState
     constructor(props: any) {
         //
         // During testing, we do not implement
@@ -106,42 +73,71 @@ export class Search extends ClassComponent<
 
         this._filterList = this.props.filterList
 
-        this.initialSearchData = {
-            components: _.makeDict(
-                this._filterList,
-                (x) => x.searchId,
-                (x) => ({
-                    searchId: x.searchId,
-                    defaultFilter: null,
-                    filters: {},
-                })
-            ),
-        }
-        this.initialState = {
-            searchData: this.initialSearchData,
-            activeFilters: [],
+
+        let searchData : SearchData = this.sharedState.get('search_filter_data');
+        if (!searchData) {
+            searchData = {
+                components: _.makeDict(
+                    this._filterList,
+                    (x) => x.searchId,
+                    (x) => ({
+                        searchId: x.searchId,
+                        defaultFilter: null,
+                        filters: {},
+                    })
+                ),
+            }
         }
 
-        this.state = this.initialState
-        this.fetchResults = this.fetchResults.bind(this)
+        this.state = {
+            searchData: { components: {} },
+            activeFilters: []
+        }
 
         this.addFilter = this.addFilter.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
         this.removeAllFilters = this.removeAllFilters.bind(this)
         this.toogleVisibilityFilter = this.toogleVisibilityFilter.bind(this)
+        this.setFullTextCriteria = this.setFullTextCriteria.bind(this);
 
-        this._setFullTextCriteria = this._setFullTextCriteria.bind(this);
+        this._setupSearchData(searchData)
     }
 
-    private fetchResults(criteria: any): void {
-        this.service.fetchSearchResults(criteria, (response: any) => {
+    private fetchSearchResults() {
+        const { searchData } = this.state
+
+        let backendData = {}
+
+        for (let componentData of _.values(searchData.components)) {
+            const componentMetadata = this._metadataDict[componentData.searchId];
+            if (componentMetadata)
+            {
+                const componentPayload = this._buildComponentQuery(componentData);
+
+                if (_.isNotNullOrUndefined(componentPayload))
+                {
+                    backendData[componentMetadata.payload] = componentPayload
+                }
+            }
+            else
+            {
+                console.error("MISSING SEARCH METADATA: ", componentData.searchId);
+            }
+        }
+
+        // console.log(
+        //     "[SEARCH QUERY DATA] ",
+        //     JSON.stringify(backendData, null, 4)
+        // )
+
+        this.service.fetchSearchResults(backendData, (response: any) => {
             if (response.results) {
-                sharedState.set("was_filtered", response.wasFiltered)
-                sharedState.set("search_result", response.results)
-                sharedState.set("total_count", response.totalCount)
+                this.sharedState.set("was_filtered", response.wasFiltered)
+                this.sharedState.set("search_result", response.results)
+                this.sharedState.set("total_count", response.totalCount)
             } else {
-                sharedState.set("search_result", response)
-                sharedState.set("total_count", response.length)
+                this.sharedState.set("search_result", response)
+                this.sharedState.set("total_count", response.length)
             }
         })
     }
@@ -201,7 +197,28 @@ export class Search extends ClassComponent<
     private _handleSearchDataChange() {
         const { searchData } = this.state
 
-        console.log("[_handleSearchDataChange] SearchData: ", searchData)
+        this._setupSearchData(searchData);
+
+        this.fetchSearchResults()
+    }
+
+    private _setupSearchData(searchData? : SearchData)
+    {
+        if (!searchData) {
+            searchData = {
+                components: _.makeDict(
+                    this._filterList,
+                    (x) => x.searchId,
+                    (x) => ({
+                        searchId: x.searchId,
+                        defaultFilter: null,
+                        filters: {},
+                    })
+                ),
+            }
+        }
+
+        console.log("[_setupSearchData] SearchData: ", searchData)
 
         let activeFilters: FilterValue[] = []
         for (let componentData of _.values(searchData.components)) {
@@ -221,12 +238,12 @@ export class Search extends ClassComponent<
             }
         }
 
+        this.sharedState.set('search_filter_data', searchData);
+
         this.setState({
             activeFilters: activeFilters,
             searchData: searchData,
         })
-
-        this.fetchSearchResults()
     }
 
     private toogleVisibilityFilter = (searchId: string, filterId: string) => {
@@ -237,7 +254,7 @@ export class Search extends ClassComponent<
         this._handleSearchDataChange()
     }
 
-    private _setFullTextCriteria(value: string)
+    private setFullTextCriteria(value: string)
     {
         if (!value) {
             this.removeAllFilters('criteria')
@@ -253,7 +270,7 @@ export class Search extends ClassComponent<
         return (
             <div data-testid="search" className="Search-wrapper p-40 overflow-hide">
                 <SearchInput
-                    updateSearchCriteria={this._setFullTextCriteria} />
+                    updateSearchCriteria={this.setFullTextCriteria} />
                 <SearchFilters
                     filterList={this._filterList}
                     activeFilters={activeFilters}
