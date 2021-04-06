@@ -3,7 +3,7 @@ import React from 'react';
 import { ClassComponent } from '@kubevious/ui-framework';
 
 import './styles.scss';
-import { IDiagramService } from '@kubevious/ui-middleware';
+import { ISearchService } from '@kubevious/ui-middleware';
 import { SearchData, FilterValue, FilterMetaData, FilterComponentData } from '../types';
 import { SearchInput } from './SearchInput';
 import { SearchFilters } from './SearchFilters';
@@ -24,7 +24,7 @@ export type SearchProps = {
     filterList: FilterMetaData[];
 };
 
-export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramService> {
+export class Search extends ClassComponent<SearchProps, TSearchState, ISearchService> {
     private _buildComponentQuery(componentData: FilterComponentData): any | null {
         if (componentData.defaultFilter) {
             return componentData.defaultFilter.value;
@@ -57,9 +57,9 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
         // and in order not to receive errors,
         // we do not send the name of the service
         //
-        // isTesting ? undefined : { kind: 'diagram' }
+        // isTesting ? undefined : { kind: 'search' }
         //
-        super(props, null, isTesting ? undefined : { kind: 'diagram' });
+        super(props, null, isTesting ? undefined : { kind: 'search' });
 
         this._metadataDict = _.makeDict(
             this.props.filterList,

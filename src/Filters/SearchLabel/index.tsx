@@ -2,7 +2,7 @@ import React, { Fragment, useState, FC, useRef } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { sharedState } from '@kubevious/ui-framework/dist/global';
 
-import { IDiagramService } from '@kubevious/ui-middleware';
+import { ISearchService } from '@kubevious/ui-middleware';
 import { useService, useSharedState } from '@kubevious/ui-framework';
 
 import { FilterComponentProps } from '../../types';
@@ -23,8 +23,8 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
     const [autocompleteValueResults, setAutocompleteValueResults] = useState<string[]>([]);
     const labelsRef = useRef(null);
 
-    useService<IDiagramService>(
-        { kind: 'diagram' },
+    useService<ISearchService>(
+        { kind: 'search' },
         (service) => {
             if (autocompleteKey) {
                 service.autocompleteLabelKeys(autocompleteKey, (data) => {
@@ -37,8 +37,8 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         [autocompleteKey],
     );
 
-    useService<IDiagramService>(
-        { kind: 'diagram' },
+    useService<ISearchService>(
+        { kind: 'search' },
         (service) => {
             if (autocompleteKey && autocompleteValue) {
                 service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {

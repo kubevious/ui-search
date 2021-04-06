@@ -4,7 +4,7 @@ import Autocomplete from 'react-autocomplete';
 import { FilterComponentProps } from '../types';
 import { sharedState } from '@kubevious/ui-framework/dist/global';
 import { useService, useSharedState } from '@kubevious/ui-framework';
-import { IDiagramService } from '@kubevious/ui-middleware';
+import { ISearchService } from '@kubevious/ui-middleware';
 
 export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, removeFilter }) => {
     const [currentValue, setCurrentValue] = useState<string>('');
@@ -22,8 +22,8 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
     const [autocompleteValueResults, setAutocompleteValueResults] = useState<string[]>([]);
     const annotationsRef = useRef(null);
 
-    useService<IDiagramService>(
-        { kind: 'diagram' },
+    useService<ISearchService>(
+        { kind: 'search' },
         (service) => {
             if (autocompleteKey) {
                 service.autocompleteAnnotationKeys(autocompleteKey, (data) => {
@@ -36,8 +36,8 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         [autocompleteKey],
     );
 
-    useService<IDiagramService>(
-        { kind: 'diagram' },
+    useService<ISearchService>(
+        { kind: 'search' },
         (service) => {
             if (autocompleteKey && autocompleteValue) {
                 service.autocompleteAnnotationValues(autocompleteKey, autocompleteValue, (data) => {
