@@ -99,7 +99,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
     return (
         <div className="filter-input-box">
             <Fragment key="Label">
-                <label ref="labels">Label</label>
+                <label ref={labelsRef}>Label</label>
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocompleteKeyResults}
