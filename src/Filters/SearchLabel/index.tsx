@@ -1,4 +1,4 @@
-import React, { Fragment, useState, FC, useEffect, useRef } from 'react';
+import React, { Fragment, useState, FC, useRef } from 'react';
 import Autocomplete from 'react-autocomplete';
 import { sharedState } from '@kubevious/ui-framework/dist/global';
 

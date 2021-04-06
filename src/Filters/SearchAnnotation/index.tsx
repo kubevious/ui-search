@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, FC, useRef } from 'react';
+import React, { Fragment, useState, FC, useRef } from 'react';
 import Autocomplete from 'react-autocomplete';
 
 import { FilterComponentProps } from '../types';
