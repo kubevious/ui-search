@@ -81,21 +81,21 @@ export class Search extends ClassComponent<
         return backendData;
     }
 
-    fetchAutocompleteKeys(
-        type: string,
-        criteria: any,
-        cb: (data: any) => any
-    ): void {
-        this.service.fetchAutocompleteKeys(type, criteria, cb)
-    }
+    // fetchAutocompleteKeys(
+    //     type: string,
+    //     criteria: any,
+    //     cb: (data: any) => any
+    // ): void {
+    //     this.service.fetchAutocompleteKeys(type, criteria, cb)
+    // }
 
-    fetchAutocompleteValues(
-        type: string,
-        criteria: any,
-        cb: (data: any) => any
-    ): void {
-        this.service.fetchAutocompleteValues(type, criteria, cb)
-    }
+    // fetchAutocompleteValues(
+    //     type: string,
+    //     criteria: any,
+    //     cb: (data: any) => any
+    // ): void {
+    //     this.service.fetchAutocompleteValues(type, criteria, cb)
+    // }
 
     private _filterList: FilterMetaData[]
     private _metadataDict: Record<string, FilterMetaData>
@@ -140,8 +140,8 @@ export class Search extends ClassComponent<
 
         this.state = this.initialState
         this.fetchResults = this.fetchResults.bind(this)
-        this.fetchAutocompleteKeys = this.fetchAutocompleteKeys.bind(this)
-        this.fetchAutocompleteValues = this.fetchAutocompleteValues.bind(this)
+        // this.fetchAutocompleteKeys = this.fetchAutocompleteKeys.bind(this)
+        // this.fetchAutocompleteValues = this.fetchAutocompleteValues.bind(this)
 
         this.addFilter = this.addFilter.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
