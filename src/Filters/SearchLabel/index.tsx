@@ -27,27 +27,36 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         value?: string
     }>({})
 
-    const [autocompleteKeyValue, setAutocompleteKeyValue] = useState<string | null>(null);
-    const [autocompleteKeyResults, setAutocompleteKeyResults] = useState<string[]>([]);
-
-    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
-
-        // const value = autocompleteKeyValue;
-
-        if (autocompleteKeyValue) {
-            service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
-                console.error("**** DATA", data);
-            })
-        } else {
-            setAutocompleteKeyResults([]);
-        }
-
-    }, [ autocompleteKeyValue ])
-
+    const [autocompleteKeyValue ] = useState<string | null>(null); //, setAutocompleteKeyValue
+    const [autocompleteKeyResults ] = useState<string[]>([]); //, setAutocompleteKeyResults
 
     const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
         INITIAL_AUTOCOMPLETE
     )
+
+    
+    console.log("[FilterSearchLabel] useService::BEFORE")
+
+    useService<IDiagramService>({ kind: 'diagram' }, () => {
+
+        console.log("[FilterSearchLabel] useService::BEGIN")
+
+        return () => {
+            console.log("[FilterSearchLabel] useService::END")
+        }
+
+        // const value = autocompleteKeyValue;
+
+        // if (autocompleteKeyValue) {
+        //     service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
+        //         console.error("**** DATA", data);
+        //     })
+        // } else {
+        //     setAutocompleteKeyResults([]);
+        // }
+
+    }, [ autocompleteKeyValue ])
+
 
     useEffect(() => {
         sharedState.set("autocomplete", INITIAL_AUTOCOMPLETE)
@@ -73,12 +82,15 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
     }, [])
 
     const handleKeyInput = (value: string): void => {
-        setCurrentKey(value);
-        setAutocompleteKeyValue(value);
+        console.log("[handleKeyInput] value:", value);
+        // setCurrentKey(value);
+        // setAutocompleteKeyValue(value);
     }
 
     const handleValueInput = (value: string): void => {
-        setCurrentValue(value)
+        console.log("[handleValueInput] value:", value);
+
+        // setCurrentValue(value)
         // fetchAutocompleteValues("labels", currentKey, value)
         // setAutocompleteKeyValue(value);
     }
