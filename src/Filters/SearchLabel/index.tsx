@@ -6,9 +6,9 @@ import { sharedState } from "@kubevious/ui-framework/dist/global"
 import { IDiagramService } from "@kubevious/ui-middleware"
 import { useService } from "@kubevious/ui-framework"
 
-import { AutocompleteValues, FilterComponentProps } from '../../types';
+import { FilterComponentProps } from '../../types';
 
-import { INITIAL_AUTOCOMPLETE } from "../constants"
+// import { INITIAL_AUTOCOMPLETE } from "../constants"
 
 // interface AutocompleteTarget
 // {
@@ -27,41 +27,61 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         value?: string
     }>({})
 
-    const [autocompleteKeyValue, setAutocompleteKeyValue ] = useState<string | null>(null); //, 
+    const [autocompleteKey, setAutocompleteKey ] = useState<string | null>(null); //, 
     const [autocompleteKeyResults, setAutocompleteKeyResults ] = useState<string[]>([]); //, 
 
-    const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
-        INITIAL_AUTOCOMPLETE
-    )
+    const [autocompleteValue, setAutocompleteValue ] = useState<string | null>(null); //, 
+    const [autocompleteValueResults, setAutocompleteValueResults ] = useState<string[]>([]); //, 
 
+    // const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
+    //     INITIAL_AUTOCOMPLETE
+    // )
 
     console.log("[FilterSearchLabel] useService::BEFORE")
 
     useService<IDiagramService>({ kind: 'diagram' }, (service) => {
 
-        console.log("[FilterSearchLabel] useService::BEGIN")
+        // console.log("[FilterSearchLabel] useService::BEGIN")
 
-        // const value = autocompleteKeyValue;
-
-        if (autocompleteKeyValue) {
-            service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
-                console.error("[FilterSearchLabel] DATA:", data);
+        if (autocompleteKey) {
+            service.autocompleteLabelKeys(autocompleteKey, (data) => {
+                // console.error("[FilterSearchLabel] DATA:", data);
                 setAutocompleteKeyResults(data);
             })
         } else {
             setAutocompleteKeyResults([]);
         }
 
-        return () => {
-            console.log("[FilterSearchLabel] useService::END")
+        // return () => {
+        //     console.log("[FilterSearchLabel] useService::END")
+        // }
+
+    }, [ autocompleteKey ])
+
+
+    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
+
+        // console.log("[FilterSearchLabel] useService::BEGIN")
+
+        if (autocompleteKey && autocompleteValue) {
+            service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {
+                // console.error("[FilterSearchLabel] DATA:", data);
+                setAutocompleteValueResults(data);
+            })
+        } else {
+            setAutocompleteValueResults([]);
         }
 
-    }, [ autocompleteKeyValue ])
+        // return () => {
+        //     console.log("[FilterSearchLabel] useService::END")
+        // }
+
+    }, [ autocompleteKey, autocompleteValue ])
 
 
-    useEffect(() => {
-        sharedState.set("autocomplete", INITIAL_AUTOCOMPLETE)
-    }, [])
+    // useEffect(() => {
+    //     sharedState.set("autocomplete", INITIAL_AUTOCOMPLETE)
+    // }, [])
 
     useEffect(() => {
         sharedState.subscribe(
@@ -76,24 +96,26 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         )
     }, [])
 
-    useEffect(() => {
-        sharedState.subscribe("autocomplete", (autocomplete) => {
-            setAutocomplete(autocomplete || INITIAL_AUTOCOMPLETE)
-        })
-    }, [])
+    // useEffect(() => {
+    //     sharedState.subscribe("autocomplete", (autocomplete) => {
+    //         setAutocomplete(autocomplete || INITIAL_AUTOCOMPLETE)
+    //     })
+    // }, [])
 
     const handleKeyInput = (value: string): void => {
         console.log("[handleKeyInput] value:", value);
         setCurrentKey(value);
-        setAutocompleteKeyValue(value);
+        setAutocompleteKey(value);
     }
 
     const handleValueInput = (value: string): void => {
         console.log("[handleValueInput] value:", value);
 
-        // setCurrentValue(value)
+        setCurrentValue(value);
+        setAutocompleteValue(value);
+
         // fetchAutocompleteValues("labels", currentKey, value)
-        // setAutocompleteKeyValue(value);
+        // setAutocompleteKey(value);
     }
 
     const addInputField = (key?: string): void => {
@@ -139,7 +161,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                 />
                 <Autocomplete
                     getItemValue={(value) => value}
-                    items={autocomplete.labels.values}
+                    items={autocompleteValueResults}
                     value={currentValue}
                     onChange={(e) => handleValueInput(e.target.value)}
                     onSelect={(val) => handleValueInput(val)}
