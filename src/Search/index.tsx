@@ -73,7 +73,6 @@ export class Search extends ClassComponent<
 
         this._filterList = this.props.filterList
 
-
         let searchData : SearchData = this.sharedState.get('search_filter_data');
         if (!searchData) {
             searchData = {
@@ -90,7 +89,7 @@ export class Search extends ClassComponent<
         }
 
         this.state = {
-            searchData: { components: {} },
+            searchData: searchData,
             activeFilters: []
         }
 
@@ -202,22 +201,8 @@ export class Search extends ClassComponent<
         this.fetchSearchResults()
     }
 
-    private _setupSearchData(searchData? : SearchData)
+    private _setupSearchData(searchData : SearchData)
     {
-        if (!searchData) {
-            searchData = {
-                components: _.makeDict(
-                    this._filterList,
-                    (x) => x.searchId,
-                    (x) => ({
-                        searchId: x.searchId,
-                        defaultFilter: null,
-                        filters: {},
-                    })
-                ),
-            }
-        }
-
         console.log("[_setupSearchData] SearchData: ", searchData)
 
         let activeFilters: FilterValue[] = []
