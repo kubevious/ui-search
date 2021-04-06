@@ -27,33 +27,34 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         value?: string
     }>({})
 
-    const [autocompleteKeyValue ] = useState<string | null>(null); //, setAutocompleteKeyValue
-    const [autocompleteKeyResults ] = useState<string[]>([]); //, setAutocompleteKeyResults
+    const [autocompleteKeyValue, setAutocompleteKeyValue ] = useState<string | null>(null); //, 
+    const [autocompleteKeyResults, setAutocompleteKeyResults ] = useState<string[]>([]); //, 
 
     const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
         INITIAL_AUTOCOMPLETE
     )
 
-    
+
     console.log("[FilterSearchLabel] useService::BEFORE")
 
-    useService<IDiagramService>({ kind: 'diagram' }, () => {
+    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
 
         console.log("[FilterSearchLabel] useService::BEGIN")
+
+        // const value = autocompleteKeyValue;
+
+        if (autocompleteKeyValue) {
+            service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
+                console.error("[FilterSearchLabel] DATA:", data);
+                setAutocompleteKeyResults(data);
+            })
+        } else {
+            setAutocompleteKeyResults([]);
+        }
 
         return () => {
             console.log("[FilterSearchLabel] useService::END")
         }
-
-        // const value = autocompleteKeyValue;
-
-        // if (autocompleteKeyValue) {
-        //     service.fetchAutocompleteKeys('labels', autocompleteKeyValue, (data) => {
-        //         console.error("**** DATA", data);
-        //     })
-        // } else {
-        //     setAutocompleteKeyResults([]);
-        // }
 
     }, [ autocompleteKeyValue ])
 
@@ -83,8 +84,8 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
 
     const handleKeyInput = (value: string): void => {
         console.log("[handleKeyInput] value:", value);
-        // setCurrentKey(value);
-        // setAutocompleteKeyValue(value);
+        setCurrentKey(value);
+        setAutocompleteKeyValue(value);
     }
 
     const handleValueInput = (value: string): void => {
