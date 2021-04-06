@@ -28,7 +28,7 @@ export class Search extends ClassComponent<
     TSearchState,
     IDiagramService
 > {
-    fetchSearchResults() {
+    private fetchSearchResults() {
         const { searchData } = this.state
 
         let backendData = {}
@@ -50,10 +50,10 @@ export class Search extends ClassComponent<
             }
         }
 
-        console.log(
-            "[SEARCH QUERY DATA] ",
-            JSON.stringify(backendData, null, 4)
-        )
+        // console.log(
+        //     "[SEARCH QUERY DATA] ",
+        //     JSON.stringify(backendData, null, 4)
+        // )
 
         this.fetchResults(backendData)
     }
@@ -80,22 +80,6 @@ export class Search extends ClassComponent<
 
         return backendData;
     }
-
-    // fetchAutocompleteKeys(
-    //     type: string,
-    //     criteria: any,
-    //     cb: (data: any) => any
-    // ): void {
-    //     this.service.fetchAutocompleteKeys(type, criteria, cb)
-    // }
-
-    // fetchAutocompleteValues(
-    //     type: string,
-    //     criteria: any,
-    //     cb: (data: any) => any
-    // ): void {
-    //     this.service.fetchAutocompleteValues(type, criteria, cb)
-    // }
 
     private _filterList: FilterMetaData[]
     private _metadataDict: Record<string, FilterMetaData>
@@ -140,8 +124,6 @@ export class Search extends ClassComponent<
 
         this.state = this.initialState
         this.fetchResults = this.fetchResults.bind(this)
-        // this.fetchAutocompleteKeys = this.fetchAutocompleteKeys.bind(this)
-        // this.fetchAutocompleteValues = this.fetchAutocompleteValues.bind(this)
 
         this.addFilter = this.addFilter.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
@@ -151,7 +133,7 @@ export class Search extends ClassComponent<
         this._setFullTextCriteria = this._setFullTextCriteria.bind(this);
     }
 
-    fetchResults(criteria: any): void {
+    private fetchResults(criteria: any): void {
         this.service.fetchSearchResults(criteria, (response: any) => {
             if (response.results) {
                 sharedState.set("was_filtered", response.wasFiltered)
@@ -164,7 +146,7 @@ export class Search extends ClassComponent<
         })
     }
 
-    addFilter(searchId: string, filterId: string | null, caption: string, value: any) {
+    private addFilter(searchId: string, filterId: string | null, caption: string, value: any) {
         const { searchData } = this.state
         if (!searchData.components[searchId]) {
             searchData.components[searchId] = {
@@ -191,7 +173,7 @@ export class Search extends ClassComponent<
         this._handleSearchDataChange()
     }
 
-    removeFilter(searchId: string, filterId: string | null) {
+    private removeFilter(searchId: string, filterId: string | null) {
         const { searchData } = this.state
 
         if (searchData.components[searchId]) {
@@ -205,7 +187,7 @@ export class Search extends ClassComponent<
         this._handleSearchDataChange()
     }
 
-    removeAllFilters(searchId: string) {
+    private removeAllFilters(searchId: string) {
         const { searchData } = this.state
 
         if (searchData.components[searchId]) {
@@ -240,7 +222,7 @@ export class Search extends ClassComponent<
         this.fetchSearchResults()
     }
 
-    toogleVisibilityFilter = (searchId: string, filterId: string) => {
+    private toogleVisibilityFilter = (searchId: string, filterId: string) => {
         const { searchData } = this.state
         const { isEnabled } = searchData.components[searchId].filters[filterId]
         searchData.components[searchId].filters[filterId].isEnabled = !isEnabled

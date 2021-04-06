@@ -4,18 +4,6 @@ export interface FilterEntry {
     caption: string
     value: any
 }
-
-export interface AutocompleteValues {
-    labels: {
-        keys: []
-        values: []
-    }
-    annotations: {
-        keys: []
-        values: []
-    }
-}
-
 export interface FilterComponentProps {
     data: FilterComponentData
     addFilter: (filterId: string, caption: string, value: any) => void

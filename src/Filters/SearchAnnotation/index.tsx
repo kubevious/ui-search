@@ -1,12 +1,10 @@
-import React, { Fragment, useState, useEffect, FC } from "react"
+import React, { Fragment, useState, FC } from "react"
 import Autocomplete from "react-autocomplete"
-import { AutocompleteValues } from "../types"
 
-import { FilterType } from "../../types"
 import { FilterComponentProps } from "../types"
-import { INITIAL_AUTOCOMPLETE } from "../constants"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
-import { fetchAutocomplete, fetchAutocompleteValues } from "../utils"
+import { useService, useSharedState } from "@kubevious/ui-framework"
+import { IDiagramService } from "@kubevious/ui-middleware"
 
 export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
     addFilter,
@@ -14,20 +12,41 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
 }) => {
     const [currentValue, setCurrentValue] = useState<string>("")
     const [currentKey, setCurrentKey] = useState<string>("")
+
     const [editedAnnotations, setEditedAnnotations] = useState<{
         filter?: string
         value?: string
     }>({})
 
-    const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
-        INITIAL_AUTOCOMPLETE
-    )
+    const [autocompleteKey, setAutocompleteKey ] = useState<string | null>(null); 
+    const [autocompleteKeyResults, setAutocompleteKeyResults ] = useState<string[]>([]);
 
-    useEffect(() => {
-        sharedState.set("autocomplete", INITIAL_AUTOCOMPLETE)
-    }, [])
+    const [autocompleteValue, setAutocompleteValue ] = useState<string | null>(null); 
+    const [autocompleteValueResults, setAutocompleteValueResults ] = useState<string[]>([]);
 
-    useEffect(() => {
+    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
+        if (autocompleteKey) {
+            service.autocompleteLabelKeys(autocompleteKey, (data) => {
+                setAutocompleteKeyResults(data);
+            })
+        } else {
+            setAutocompleteKeyResults([]);
+        }
+    }, [ autocompleteKey ])
+
+
+    useService<IDiagramService>({ kind: 'diagram' }, (service) => {
+        if (autocompleteKey && autocompleteValue) {
+            service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {
+                setAutocompleteValueResults(data);
+            })
+        } else {
+            setAutocompleteValueResults([]);
+        }
+    }, [ autocompleteKey, autocompleteValue ])
+
+
+    useSharedState((sharedState) => {
         sharedState.subscribe(
             "edited_filter_annotations",
             (edited_filter_annotations) => {
@@ -38,23 +57,16 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
                 }
             }
         )
-    }, [])
+    })
 
-    useEffect(() => {
-        sharedState.subscribe("autocomplete", (autocomplete) => {
-            setAutocomplete(autocomplete || INITIAL_AUTOCOMPLETE)
-        })
-    }, [])
+    const handleKeyInput = (value: string): void => {
+        setCurrentKey(value);
+        setAutocompleteKey(value);
+    }
 
-    const handleFilterInput = (value: string, title: FilterType): void => {
-        if (title === "key") {
-            setCurrentKey(value)
-            fetchAutocomplete("annotations", value)
-
-            return
-        }
-        setCurrentValue(value)
-        fetchAutocompleteValues("annotations", currentKey, value)
+    const handleValueInput = (value: string): void => {
+        setCurrentValue(value);
+        setAutocompleteValue(value);
     }
 
     const addInputField = (key?: string): void => {
@@ -83,10 +95,10 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
                 <label>Annotation</label>
                 <Autocomplete
                     getItemValue={(value) => value}
-                    items={autocomplete.annotations.keys}
+                    items={autocompleteKeyResults}
                     value={currentKey}
-                    onChange={(e) => handleFilterInput(e.target.value, "key")}
-                    onSelect={(val) => handleFilterInput(val, "key")}
+                    onChange={(e) => handleKeyInput(e.target.value)}
+                    onSelect={(val) => handleKeyInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => (
                         <div className="autocomplete" children={items} />
@@ -98,15 +110,15 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
                         />
                     )}
                     onMenuVisibilityChange={() =>
-                        fetchAutocomplete("annotations", currentKey)
+                        handleKeyInput(currentKey)
                     }
                 />
                 <Autocomplete
                     getItemValue={(value) => value}
-                    items={autocomplete.annotations.values}
+                    items={autocompleteValueResults}
                     value={currentValue}
-                    onChange={(e) => handleFilterInput(e.target.value, "value")}
-                    onSelect={(val) => handleFilterInput(val, "value")}
+                    onChange={(e) => handleValueInput(e.target.value)}
+                    onSelect={(val) => handleValueInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => (
                         <div className="autocomplete" children={items} />
@@ -115,7 +127,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
                         <input disabled={!currentKey.trim()} {...props} />
                     )}
                     onMenuVisibilityChange={() =>
-                        fetchAutocomplete("annotations", currentValue)
+                        handleValueInput(currentValue)
                     }
                 />
             </Fragment>

@@ -1,19 +1,11 @@
-import React, { Fragment, useState, useEffect, FC } from "react"
+import React, { Fragment, useState, FC } from "react"
 import Autocomplete from "react-autocomplete"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
-// import { fetchAutocomplete } from "../utils"
 
 import { IDiagramService } from "@kubevious/ui-middleware"
-import { useService } from "@kubevious/ui-framework"
+import { useService, useSharedState } from "@kubevious/ui-framework"
 
 import { FilterComponentProps } from '../../types';
-
-// import { INITIAL_AUTOCOMPLETE } from "../constants"
-
-// interface AutocompleteTarget
-// {
-
-// }
 
 
 export const FilterSearchLabel: FC<FilterComponentProps> = ({
@@ -22,68 +14,40 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
 }) => {
     const [currentValue, setCurrentValue] = useState<string>("")
     const [currentKey, setCurrentKey] = useState<string>("")
+
     const [editedLabels, setEditedLabels] = useState<{
         filter?: string
         value?: string
     }>({})
 
-    const [autocompleteKey, setAutocompleteKey ] = useState<string | null>(null); //, 
-    const [autocompleteKeyResults, setAutocompleteKeyResults ] = useState<string[]>([]); //, 
+    const [autocompleteKey, setAutocompleteKey ] = useState<string | null>(null); 
+    const [autocompleteKeyResults, setAutocompleteKeyResults ] = useState<string[]>([]);
 
-    const [autocompleteValue, setAutocompleteValue ] = useState<string | null>(null); //, 
-    const [autocompleteValueResults, setAutocompleteValueResults ] = useState<string[]>([]); //, 
-
-    // const [autocomplete, setAutocomplete] = useState<AutocompleteValues>(
-    //     INITIAL_AUTOCOMPLETE
-    // )
-
-    console.log("[FilterSearchLabel] useService::BEFORE")
+    const [autocompleteValue, setAutocompleteValue ] = useState<string | null>(null); 
+    const [autocompleteValueResults, setAutocompleteValueResults ] = useState<string[]>([]);
 
     useService<IDiagramService>({ kind: 'diagram' }, (service) => {
-
-        // console.log("[FilterSearchLabel] useService::BEGIN")
-
         if (autocompleteKey) {
             service.autocompleteLabelKeys(autocompleteKey, (data) => {
-                // console.error("[FilterSearchLabel] DATA:", data);
                 setAutocompleteKeyResults(data);
             })
         } else {
             setAutocompleteKeyResults([]);
         }
-
-        // return () => {
-        //     console.log("[FilterSearchLabel] useService::END")
-        // }
-
     }, [ autocompleteKey ])
 
 
     useService<IDiagramService>({ kind: 'diagram' }, (service) => {
-
-        // console.log("[FilterSearchLabel] useService::BEGIN")
-
         if (autocompleteKey && autocompleteValue) {
             service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {
-                // console.error("[FilterSearchLabel] DATA:", data);
                 setAutocompleteValueResults(data);
             })
         } else {
             setAutocompleteValueResults([]);
         }
-
-        // return () => {
-        //     console.log("[FilterSearchLabel] useService::END")
-        // }
-
     }, [ autocompleteKey, autocompleteValue ])
 
-
-    // useEffect(() => {
-    //     sharedState.set("autocomplete", INITIAL_AUTOCOMPLETE)
-    // }, [])
-
-    useEffect(() => {
+    useSharedState((sharedState) => {
         sharedState.subscribe(
             "edited_filter_labels",
             (edited_filter_labels) => {
@@ -94,28 +58,16 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                 }
             }
         )
-    }, [])
-
-    // useEffect(() => {
-    //     sharedState.subscribe("autocomplete", (autocomplete) => {
-    //         setAutocomplete(autocomplete || INITIAL_AUTOCOMPLETE)
-    //     })
-    // }, [])
+    })
 
     const handleKeyInput = (value: string): void => {
-        console.log("[handleKeyInput] value:", value);
         setCurrentKey(value);
         setAutocompleteKey(value);
     }
 
     const handleValueInput = (value: string): void => {
-        console.log("[handleValueInput] value:", value);
-
         setCurrentValue(value);
         setAutocompleteValue(value);
-
-        // fetchAutocompleteValues("labels", currentKey, value)
-        // setAutocompleteKey(value);
     }
 
     const addInputField = (key?: string): void => {
@@ -137,6 +89,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         setEditedLabels({})
         sharedState.set("edited_filter_labels", null)
     }
+
     return (
         <div className="filter-input-box">
             <Fragment key="Label">
@@ -156,7 +109,6 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                     )}
                     onMenuVisibilityChange={() =>
                         handleKeyInput(currentKey)
-                        // fetchAutocomplete("labels", currentKey)
                     }
                 />
                 <Autocomplete
@@ -174,7 +126,6 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
                     )}
                     onMenuVisibilityChange={() =>
                         handleValueInput(currentValue)
-                        // fetchAutocomplete("labels", currentValue)
                     }
                 />
             </Fragment>
