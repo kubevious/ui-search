@@ -90,7 +90,7 @@ export class Search extends ClassComponent<
 
         this.state = {
             searchData: searchData,
-            activeFilters: []
+            activeFilters: this._buildActiveFilters(searchData)
         }
 
         this.addFilter = this.addFilter.bind(this)
@@ -98,8 +98,6 @@ export class Search extends ClassComponent<
         this.removeAllFilters = this.removeAllFilters.bind(this)
         this.toogleVisibilityFilter = this.toogleVisibilityFilter.bind(this)
         this.setFullTextCriteria = this.setFullTextCriteria.bind(this);
-
-        this._setupSearchData(searchData)
     }
 
     private fetchSearchResults() {
@@ -201,10 +199,8 @@ export class Search extends ClassComponent<
         this.fetchSearchResults()
     }
 
-    private _setupSearchData(searchData : SearchData)
+    private _buildActiveFilters(searchData : SearchData)
     {
-        console.log("[_setupSearchData] SearchData: ", searchData)
-
         let activeFilters: FilterValue[] = []
         for (let componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId];
@@ -222,6 +218,14 @@ export class Search extends ClassComponent<
                 }
             }
         }
+        return activeFilters;
+    }
+
+    private _setupSearchData(searchData : SearchData)
+    {
+        console.log("[_setupSearchData] SearchData: ", searchData)
+
+        let activeFilters = this._buildActiveFilters(searchData);
 
         this.sharedState.set('search_filter_data', searchData);
 
