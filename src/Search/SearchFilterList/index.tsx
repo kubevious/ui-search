@@ -7,7 +7,13 @@ import { SearchFilterExpander } from '../SearchFilterExpander';
 export interface SearchFilterListProps {
     filterList: FilterMetaData[];
     searchData: SearchData;
-    addFilter(searchId: string, filterId: string, caption: string, value: any): void;
+    addFilter(
+        searchId: string,
+        filterId: string,
+        caption: string,
+        value: any,
+        ref?: React.MutableRefObject<null>,
+    ): void;
     removeFilter(searchId: string, filterId: string): void;
     removeAllFilters(searchId: string): void;
 }
@@ -39,8 +45,13 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                         }
                     }
 
-                    const onFilterAdd = (filterId: string, caption: string, value: any) => {
-                        addFilter(filter.searchId, filterId, caption, value);
+                    const onFilterAdd = (
+                        filterId: string,
+                        caption: string,
+                        value: any,
+                        ref?: React.MutableRefObject<null>,
+                    ) => {
+                        addFilter(filter.searchId, filterId, caption, value, ref);
                     };
 
                     const onFilterRemove = (filterId: string) => {
