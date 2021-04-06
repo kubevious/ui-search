@@ -1,19 +1,18 @@
-import { FilterEntry } from "../types"
-
+import { FilterEntry } from '../types';
 
 export const FILTER_ENTRIES_ERRORS: FilterEntry[] = [
     {
-        caption: "With errors",
+        caption: 'With errors',
         value: {
-            kind: "at-least",
+            kind: 'at-least',
             count: 1,
         },
     },
     {
-        caption: "Without errors",
+        caption: 'Without errors',
         value: {
-            kind: "at-most",
+            kind: 'at-most',
             count: 0,
         },
     },
-]
+];

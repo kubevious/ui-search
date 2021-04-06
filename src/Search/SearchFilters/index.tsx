@@ -10,17 +10,13 @@ export const SearchFilters: FC<{
     removeFilter: (searchId: string, filterId: string | null) => void;
     toogleVisibilityFilter: (searchId: string, filterId: string | null) => void;
 }> = ({ filterList, activeFilters, removeFilter, toogleVisibilityFilter }) => {
-    const handleEditFilter = (
-        type: string,
-        filter: string | null,
-        value: any,
-    ): void => {
+    const handleEditFilter = (type: string, filter: string | null, value: any): void => {
         sharedState.set(`edited_filter_${type}`, {
             filter,
             value,
         });
-        const ref = sharedState.get(`${type}_ref`)
-        window.scrollTo(0, ref.current.offsetTop );
+        const ref = sharedState.get(`${type}_ref`);
+        window.scrollTo(0, ref.current.offsetTop);
     };
 
     const renderActiveFilter = (val: FilterValue) => {
