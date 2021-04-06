@@ -333,6 +333,10 @@
             }
         }
 
+        &:-webkit-scrollbar {
+            width: 0;
+        }
+    
         &.deactivated {
             background-color: #666666;
             color: #ccc;
@@ -347,6 +351,8 @@
             }
         }
     }
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
 }
 
 .search-results {
@@ -397,7 +403,7 @@ button:focus {
 
 .clearButton {
     position: absolute;
-    right: 28px;
+    right: 10px;
 }
 
 .clearButton:hover { cursor: pointer; }

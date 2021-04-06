@@ -1,4 +1,4 @@
-import React, { Fragment, useState, FC } from "react"
+import React, { Fragment, useState, FC, useEffect, useRef } from "react"
 import Autocomplete from "react-autocomplete"
 import { sharedState } from "@kubevious/ui-framework/dist/global"
 
@@ -90,10 +90,16 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({
         sharedState.set("edited_filter_labels", null)
     }
 
+    const labelsRef = useRef(null)
+
+    useEffect(() => {
+        sharedState.set("labels_ref", labelsRef)
+    }, [])
+    
     return (
         <div className="filter-input-box">
             <Fragment key="Label">
-                <label>Label</label>
+                <label ref="labels">Label</label>
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocompleteKeyResults}

@@ -1,34 +1,34 @@
-import React, { FC } from "react"
-import cx from "classnames"
-import { sharedState } from "@kubevious/ui-framework/dist/global"
+import React, { FC } from 'react';
+import cx from 'classnames';
+import { sharedState } from '@kubevious/ui-framework/dist/global';
 
-import { FilterMetaData, FilterValue } from "../../types"
+import { FilterMetaData, FilterValue } from '../../types';
 
 export const SearchFilters: FC<{
-    filterList: FilterMetaData[]
-    activeFilters: FilterValue[]
-    removeFilter: (searchId: string, filterId: string | null) => void
-    toogleVisibilityFilter: (searchId: string, filterId: string | null) => void
+    filterList: FilterMetaData[];
+    activeFilters: FilterValue[];
+    removeFilter: (searchId: string, filterId: string | null) => void;
+    toogleVisibilityFilter: (searchId: string, filterId: string | null) => void;
 }> = ({ filterList, activeFilters, removeFilter, toogleVisibilityFilter }) => {
     const handleEditFilter = (
         type: string,
         filter: string | null,
-        value: any
+        value: any,
     ): void => {
         sharedState.set(`edited_filter_${type}`, {
             filter,
             value,
-        })
-    }
+        });
+        const ref = sharedState.get(`${type}_ref`)
+        window.scrollTo(0, ref.current.offsetTop );
+    };
 
     const renderActiveFilter = (val: FilterValue) => {
-        const filterComponent = filterList.find(
-            (filterValue) => filterValue.searchId === val.searchId
-        )
+        const filterComponent = filterList.find((filterValue) => filterValue.searchId === val.searchId);
 
         return (
             <div
-                className={cx("active-filter-box", {
+                className={cx('active-filter-box', {
                     deactivated: !val.isEnabled,
                 })}
                 key={val.caption}
@@ -38,23 +38,15 @@ export const SearchFilters: FC<{
                 {filterComponent?.isEditable && (
                     <button
                         className="filter-btn edit"
-                        onClick={() =>
-                            handleEditFilter(
-                                val.searchId,
-                                val.filterId,
-                                val.value
-                            )
-                        }
+                        onClick={() => handleEditFilter(val.searchId, val.filterId, val.value)}
                     ></button>
                 )}
                 <button
-                    className={cx("filter-btn toggle-show", {
+                    className={cx('filter-btn toggle-show', {
                         hide: !val.isEnabled,
                     })}
                     title="Toggle show/hide"
-                    onClick={() =>
-                        toogleVisibilityFilter(val.searchId, val.filterId)
-                    }
+                    onClick={() => toogleVisibilityFilter(val.searchId, val.filterId)}
                 />
                 <button
                     className="filter-btn del"
@@ -64,12 +56,12 @@ export const SearchFilters: FC<{
                     &times;
                 </button>
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <div className="active-filters">
             <>{activeFilters.map((val) => renderActiveFilter(val))}</>
         </div>
-    )
-}
+    );
+};

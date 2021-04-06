@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import { FILTER_ENTRIES_ERRORS } from "./constants"
 import { FilterComponentProps, FilterEntry } from "../types"
+import classnames from "classnames"
 
 export const FilterSearchErrors: FC<FilterComponentProps> = ({
     data,
@@ -22,11 +23,7 @@ export const FilterSearchErrors: FC<FilterComponentProps> = ({
             {FILTER_ENTRIES_ERRORS.map((option, index) => (
                 <button
                     key={index}
-                    className={
-                        option.caption === selectedFilter
-                            ? "selected-filter"
-                            : ""
-                    }
+                    className={classnames({'selected-filter': option.caption === selectedFilter})}
                     onClick={() => handleFilterChange(option)}
                 >
                     {option.caption}

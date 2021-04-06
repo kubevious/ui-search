@@ -4,6 +4,7 @@ import { MarkersList, MarkerItem } from "./types"
 import _ from "lodash"
 import { FilterComponentProps } from "../types"
 import { useSharedState } from "@kubevious/ui-framework"
+import classnames from "classnames"
 
 export const FilterSearchMarkers: FC<FilterComponentProps> = ({
     data,
@@ -26,12 +27,11 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({
     })
 
     const markerFilterChange = (title: string): void => {
-        const newMarker: MarkerItem = _.filter(
-            markers.values,
+        const newMarker: MarkerItem | undefined = markers.values.find(
             (marker: MarkerItem) => marker.name === title
-        )[0]
+        )
 
-        if (!newMarker.name) {
+        if (!newMarker || !newMarker.name) {
             return
         }
 
@@ -52,9 +52,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({
                         <button
                             title={name}
                             key={name}
-                            className={
-                                data.filters[name] ? "selected-filter" : ""
-                            }
+                            className={classnames({'selected-filter': data.filters[name]})}
                             onClick={() => handleMarkerFilterChange(name)}
                         >
                             <MarkerPreview

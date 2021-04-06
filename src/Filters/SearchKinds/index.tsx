@@ -3,6 +3,7 @@ import { KindList, KindListValue } from "./types"
 import _ from "lodash"
 import { FilterComponentProps } from "../types"
 import { KIND_TO_USER_MAPPING } from "@kubevious/helpers/dist/docs"
+import classnames from "classnames"
 
 export const FilterSearchKinds: FC<FilterComponentProps> = ({
     data,
@@ -52,11 +53,7 @@ export const FilterSearchKinds: FC<FilterComponentProps> = ({
                     return (
                         <button
                             key={index}
-                            className={
-                                selectedKinds[item.payload]
-                                    ? "selected-filter"
-                                    : ""
-                            }
+                            className={classnames({'selected-filter': selectedKinds[item.payload]})}
                             onClick={(e) =>
                                 kindFilterChange(item.title, item.payload, e)
                             }

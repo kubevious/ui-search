@@ -1,4 +1,4 @@
-import React, { Fragment, useState, FC } from "react"
+import React, { Fragment, useState, useEffect, FC, useRef } from "react"
 import Autocomplete from "react-autocomplete"
 
 import { FilterComponentProps } from "../types"
@@ -58,6 +58,11 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
             }
         )
     })
+    const annotationsRef = useRef(null)
+
+    useEffect(() => {
+        sharedState.set("annotations_ref", annotationsRef)
+    }, [])
 
     const handleKeyInput = (value: string): void => {
         setCurrentKey(value);
@@ -92,7 +97,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({
     return (
         <div className="filter-input-box">
             <Fragment key="Annotation">
-                <label>Annotation</label>
+                <label ref={annotationsRef}>Annotation</label>
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocompleteKeyResults}
