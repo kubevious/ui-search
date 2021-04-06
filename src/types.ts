@@ -43,7 +43,6 @@ export interface FilterValue {
     caption: string;
     value: any;
     isEnabled: boolean;
-    ref?: React.MutableRefObject<null>;
 }
 
 export interface SelectedData {

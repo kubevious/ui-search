@@ -13,6 +13,9 @@ import { SearchFilterList } from './SearchFilterList';
 interface TSearchState {
     searchData: SearchData;
     activeFilters: FilterValue[];
+    refs: {
+        [name: string]: React.MutableRefObject<null>;
+    };
 }
 
 const isTesting = process.env.IS_TESTING;
@@ -84,6 +87,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
         this.state = {
             searchData: searchData,
             activeFilters: this._buildActiveFilters(searchData),
+            refs: {},
         };
 
         this.addFilter = this.addFilter.bind(this);
@@ -144,13 +148,16 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
             };
         }
 
+        if (ref) {
+            this.state.refs[searchId] = ref;
+        }
+
         const filterValue: FilterValue = {
             searchId: searchId,
             filterId: filterId,
             caption: caption,
             value: value,
             isEnabled: true,
-            ref: ref,
         };
 
         if (filterId) {
@@ -250,6 +257,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, IDiagramSe
                     activeFilters={activeFilters}
                     removeFilter={this.removeFilter}
                     toogleVisibilityFilter={this.toogleVisibilityFilter}
+                    refs={this.state.refs}
                 />
                 <div className="search-area">
                     <SearchFilterList
