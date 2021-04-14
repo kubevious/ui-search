@@ -6,6 +6,8 @@ import { sharedState } from '@kubevious/ui-framework/dist/global';
 import { useService, useSharedState } from '@kubevious/ui-framework';
 import { ISearchService } from '@kubevious/ui-middleware';
 
+import styles from '../styles.module.css';
+
 export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, removeFilter }) => {
     const [currentValue, setCurrentValue] = useState<string>('');
     const [currentKey, setCurrentKey] = useState<string>('');
@@ -87,7 +89,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
     };
 
     return (
-        <div className="filter-input-box">
+        <div className={styles.filterInputBox}>
             <Fragment key="Annotation">
                 <label ref={annotationsRef}>Annotation</label>
                 <Autocomplete
@@ -97,7 +99,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
                     onChange={(e) => handleKeyInput(e.target.value)}
                     onSelect={(val) => handleKeyInput(val)}
                     renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className="autocomplete" children={items} />}
+                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
                     renderInput={(props) => <input disabled={!!editedAnnotations.filter} {...props} />}
                     onMenuVisibilityChange={() => handleKeyInput(currentKey)}
                 />
@@ -108,16 +110,16 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
                     onChange={(e) => handleValueInput(e.target.value)}
                     onSelect={(val) => handleValueInput(val)}
                     renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className="autocomplete" children={items} />}
+                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
                     renderInput={(props) => <input disabled={!currentKey.trim()} {...props} />}
                     onMenuVisibilityChange={() => handleValueInput(currentValue)}
                 />
             </Fragment>
             {currentKey.trim() && currentValue.trim() && (
-                <div className="filter-input-btns">
+                <div className={styles.filterInputBtns}>
                     <button
                         type="button"
-                        className="add-filter-btn"
+                        className={styles.addFilterBtn}
                         onClick={() => addInputField(editedAnnotations.filter)}
                     >
                         {!!editedAnnotations.filter ? 'Update' : 'Add'}

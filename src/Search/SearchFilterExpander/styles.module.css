@@ -1,0 +1,61 @@
+.filterList,
+.filterList:focus,
+.filterList:active {
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 0;
+    outline: none;
+}
+
+summary {
+    min-height: unset;
+}
+
+details {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+details:last-child {
+    margin-bottom: 0;
+}
+
+details:first-child {
+    margin-top: 0;
+}
+
+.inner {
+    padding-left: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inner:focus, .inner:active {
+    outline: none;
+}
+
+.inner::-webkit-details-marker {
+    order: 1;
+}
+
+.inner.isActive:after {
+    content: '';
+    position: relative;
+    display: flex;
+    margin: 0 20px 0 auto;
+    border: 6px solid #f2a81c;
+    border-radius: 10px;
+}
+
+.clearButton {
+    position: absolute;
+    right: 10px;
+}
+
+.clearButton:hover {
+    cursor: pointer;
+}

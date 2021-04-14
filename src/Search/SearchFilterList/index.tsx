@@ -3,10 +3,14 @@ import _ from 'lodash';
 import React from 'react';
 import { FilterMetaData, FilterComponentData, SearchData } from '../../types';
 import { SearchFilterExpander } from '../SearchFilterExpander';
+import cx from 'classnames';
+
+import styles from './styles.module.css';
 
 export interface SearchFilterListProps {
     filterList: FilterMetaData[];
     searchData: SearchData;
+
     addFilter(
         searchId: string,
         filterId: string,
@@ -14,7 +18,9 @@ export interface SearchFilterListProps {
         value: any,
         ref?: React.MutableRefObject<null>,
     ): void;
+
     removeFilter(searchId: string, filterId: string): void;
+
     removeAllFilters(searchId: string): void;
 }
 
@@ -28,7 +34,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
     const renderableFilters = filterList.filter((x) => x.component);
 
     return (
-        <div className="filter-list filter-box">
+        <div className={cx(styles.filterList, styles.filterBox)}>
             {renderableFilters &&
                 renderableFilters.map((filter, index) => {
                     const ComponentType = filter.component!;

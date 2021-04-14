@@ -1,0 +1,41 @@
+.searchResults {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-basis: 80%;
+    overflow-y: auto;
+}
+
+.resultPlaceholder {
+    font-family: 'Montserrat';
+    font-size: 20px;
+}
+
+.limitedResultsMsg {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.searchResults :global(.dn-logo) {
+    float: left;
+}
+
+.searchResults :global(.dn-path) {
+    font-size: 14pt;
+}
+
+.searchResults :global(.dn-path span) {
+    margin: 0 6px 0 0;
+    line-height: 33px;
+}
+
+.searchResults :global(.dn-path span.separator) {
+    width: 6px;
+    padding: 0 3px;
+}
+
+.searchResults :global(.dn-path .kind) {
+    font-size: 10pt;
+}

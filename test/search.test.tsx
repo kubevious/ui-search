@@ -5,16 +5,14 @@ import { render } from '@testing-library/react';
 
 import { Search } from '../src';
 
-function renderSearch() {
-    return render(<Search filterList={[]} />);
-}
+const renderComponent = () => render(<Search filterList={[]} />);
 
 describe('Search', () => {
-    test('Should check that the component Search is rendered', async () => {
-        const { findByTestId } = renderSearch();
+    test('should check that the component Search is rendered', async () => {
+        const { findByTestId } = renderComponent();
 
         const searchComponent = await findByTestId('search');
 
-        expect(searchComponent);
+        expect(searchComponent).toBeTruthy();
     });
 });

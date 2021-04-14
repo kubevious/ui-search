@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import cx from 'classnames';
+
+import styles from './style.module.css';
 
 export interface SearchInputProps {
     updateSearchCriteria: (value: string) => void;
@@ -12,15 +15,16 @@ export const SearchInput: React.FunctionComponent<SearchInputProps> = ({ updateS
         setCriteria(input);
         updateSearchCriteria(input);
     };
+
     return (
-        <div className="form-group has-success">
+        <div className="form-group d-flex mb-3">
             <input
                 type="text"
-                className="form-control search-input"
+                className={cx('form-control', styles.searchInput)}
                 placeholder="Search"
                 value={criteria}
                 autoFocus
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
             />
         </div>
     );

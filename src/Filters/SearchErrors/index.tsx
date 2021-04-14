@@ -3,6 +3,8 @@ import { FILTER_ENTRIES_ERRORS } from './constants';
 import { FilterComponentProps, FilterEntry } from '../types';
 import classnames from 'classnames';
 
+import styles from '../styles.module.css';
+
 export const FilterSearchErrors: FC<FilterComponentProps> = ({ data, addFilter, removeFilter }) => {
     const selectedFilter = data.filters?.value?.caption;
 
@@ -15,11 +17,11 @@ export const FilterSearchErrors: FC<FilterComponentProps> = ({ data, addFilter, 
     };
 
     return (
-        <div className="inner-items">
+        <div className={styles.innerItems}>
             {FILTER_ENTRIES_ERRORS.map((option, index) => (
                 <button
                     key={index}
-                    className={classnames({ 'selected-filter': option.caption === selectedFilter })}
+                    className={classnames({ [styles.selectedFilter]: option.caption === selectedFilter })}
                     onClick={() => handleFilterChange(option)}
                 >
                     {option.caption}

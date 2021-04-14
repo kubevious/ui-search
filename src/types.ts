@@ -25,6 +25,7 @@ export interface FilterComponentProps {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<SVGSVGElement, MouseEvent>,
     ) => void;
 }
+
 /*******/
 
 export interface SearchData {

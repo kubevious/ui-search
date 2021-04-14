@@ -5,6 +5,8 @@ import { FilterComponentData, FilterMetaData } from '../../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
+import styles from './styles.module.css';
+
 export const SearchFilterExpander: React.FunctionComponent<{
     data: FilterComponentData;
     filter: FilterMetaData;
@@ -14,12 +16,14 @@ export const SearchFilterExpander: React.FunctionComponent<{
     return (
         <details open key={filter.payload}>
             <summary
-                className={cx('filter-list inner', {
-                    'is-active': isActive,
+                className={cx(styles.filterList, styles.inner, {
+                    [styles.isActive]: isActive,
                 })}
             >
                 {filter.title}
-                {isActive && <FontAwesomeIcon className="clearButton" icon={faTrash} onClick={removeAllFilters} />}
+                {isActive && (
+                    <FontAwesomeIcon className={styles.clearButton} icon={faTrash} onClick={removeAllFilters} />
+                )}
             </summary>
 
             {children}

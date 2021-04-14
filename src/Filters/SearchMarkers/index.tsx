@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import { MarkerPreview } from '@kubevious/ui-rule-engine';
 import { MarkersList, MarkerItem } from './types';
-import _ from 'lodash';
 import { FilterComponentProps } from '../types';
 import { useSharedState } from '@kubevious/ui-framework';
 import classnames from 'classnames';
+
+import styles from '../styles.module.css';
 
 export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter, removeFilter }) => {
     const [markers, setMarkers] = useState<MarkersList>({
@@ -38,7 +39,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
     };
 
     return (
-        <div className="inner-items">
+        <div className={styles.innerItems}>
             {markers.values &&
                 markers.values.map((item) => {
                     const name = item.name || '';
@@ -46,7 +47,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
                         <button
                             title={name}
                             key={name}
-                            className={classnames({ 'selected-filter': data.filters[name] })}
+                            className={classnames({ [styles.selectedFilter]: data.filters[name] })}
                             onClick={() => handleMarkerFilterChange(name)}
                         >
                             <MarkerPreview shape={item.shape} color={item.color} />

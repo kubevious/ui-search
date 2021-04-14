@@ -5,6 +5,8 @@ import { isEmptyArray } from '../util';
 import { SelectedData } from '../../types';
 import { useSharedState } from '@kubevious/ui-framework';
 
+import styles from './styles.module.css';
+
 export const SearchResults = () => {
     const [result, setResult] = useState<SelectedData[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
@@ -19,13 +21,17 @@ export const SearchResults = () => {
     });
 
     return (
-        <div className="search-results">
+        <div className={styles.searchResults}>
             {isEmptyArray(result) ? (
-                <div className="result-placeholder">{wasFiltered ? NO_ITEMS_MATCHING_MSG : NO_SEARCH_RESULT_MSG}</div>
+                <div className={styles.resultPlaceholder}>
+                    {wasFiltered ? NO_ITEMS_MATCHING_MSG : NO_SEARCH_RESULT_MSG}
+                </div>
             ) : (
                 <>
                     {result && result.map((item, index) => <DnShortcutComponent key={index} dn={item.dn} />)}
-                    {result.length < totalCount && <div className="limited-results-msg">{LIMITED_RESULTS_MSG}</div>}
+                    {result.length < totalCount && (
+                        <div className={styles.limitedResultsMsg}>{LIMITED_RESULTS_MSG}</div>
+                    )}
                 </>
             )}
         </div>

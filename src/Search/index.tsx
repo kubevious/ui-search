@@ -2,13 +2,15 @@ import _ from 'the-lodash';
 import React from 'react';
 import { ClassComponent } from '@kubevious/ui-framework';
 
-import './styles.scss';
+// import './styles.scss';
 import { ISearchService } from '@kubevious/ui-middleware';
 import { SearchData, FilterValue, FilterMetaData, FilterComponentData } from '../types';
 import { SearchInput } from './SearchInput';
 import { SearchFilters } from './SearchFilters';
 import { SearchResults } from './SearchResults';
 import { SearchFilterList } from './SearchFilterList';
+
+import styles from './styles.module.css';
 
 interface TSearchState {
     searchData: SearchData;
@@ -250,7 +252,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         const { activeFilters, searchData } = this.state;
 
         return (
-            <div data-testid="search" className="Search-wrapper p-40 overflow-hide">
+            <div data-testid="search" className="d-flex flex-column p-40 overflow-hide text-white">
                 <SearchInput updateSearchCriteria={this.setFullTextCriteria} />
                 <SearchFilters
                     filterList={this._filterList}
@@ -259,7 +261,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                     toogleVisibilityFilter={this.toogleVisibilityFilter}
                     refs={this.state.refs}
                 />
-                <div className="search-area">
+                <div className={styles.searchArea}>
                     <SearchFilterList
                         filterList={this._filterList}
                         searchData={searchData}

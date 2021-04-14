@@ -1,0 +1,104 @@
+.activeFilters {
+    position: relative;
+    max-height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.activeFilters:empty {
+    height: 3rem;
+}
+
+.activeFilterBox {
+    padding: 0 0 0 10px;
+    border-radius: 2px;
+    color: black;
+    background-color: #ccc;
+    display: flex;
+    margin: 0 20px 15px 0;
+    height: fit-content;
+    font-weight: 600;
+    line-height: 26px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.filterKey {
+    padding-right: 5px;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.filterVal {
+    margin-right: 10px;
+}
+
+.activeFilterBox.deactivated {
+    background-color: #666666;
+    color: #ccc;
+}
+
+.activeFilterBox.deactivated .filterKey, .activeFilterBox.deactivated .filterVal {
+    text-decoration: line-through;
+}
+
+.filterBtn {
+    display: flex;
+    background: #8d8d8d;
+    color: black;
+    padding: 0 5px;
+    width: 25px;
+    font-size: 26px;
+    line-height: 26px;
+    font-weight: 600;
+    border: none;
+    border-left: 1px solid #ccc;
+}
+
+.filterBtn:hover {
+    background: #ffbd44;
+}
+
+.filterKey:focus, .filterKey:active {
+    outline: none;
+}
+
+.filterKey:last-child {
+    border-radius: 0 2px 2px 0;
+}
+
+.activeFilterBox.deactivated .filterBtn {
+    border-left: 1px solid #666666;
+}
+
+.edit {
+    padding: 0 5px;
+}
+
+.edit:before {
+    content: '';
+    width: 20px;
+    height: 25px;
+    background-color: #ccc;
+    background: url('/img/search/edit.svg') no-repeat center center;
+}
+
+.toggleShow {
+    padding: 0 5px;
+}
+
+.toggleShow.hide:before {
+    content: '';
+    width: 25px;
+    height: 25px;
+    background-color: #ccc;
+    background: url('/img/search/eye.svg') no-repeat center center;
+}
+
+.toggleShow:before {
+    content: '';
+    width: 25px;
+    height: 25px;
+    background-color: #ccc;
+    background: url('/img/search/hide.svg') no-repeat center center;
+}

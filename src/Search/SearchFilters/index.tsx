@@ -4,6 +4,8 @@ import { sharedState } from '@kubevious/ui-framework/dist/global';
 
 import { FilterMetaData, FilterValue } from '../../types';
 
+import styles from './styles.module.css';
+
 export const SearchFilters: FC<{
     filterList: FilterMetaData[];
     activeFilters: FilterValue[];
@@ -26,28 +28,28 @@ export const SearchFilters: FC<{
 
         return (
             <div
-                className={cx('active-filter-box', {
-                    deactivated: !val.isEnabled,
+                className={cx(styles.activeFilterBox, {
+                    [styles.deactivated]: !val.isEnabled,
                 })}
                 key={val.caption}
             >
-                <span className="filter-key">{`${val.searchId}: `}</span>
-                <span className="filter-val">{val.caption}</span>
+                <span className={styles.filterKey}>{`${val.searchId}: `}</span>
+                <span className={styles.filterVal}>{val.caption}</span>
                 {filterComponent?.isEditable && (
                     <button
-                        className="filter-btn edit"
+                        className={cx(styles.filterBtn, styles.edit)}
                         onClick={() => handleEditFilter(val.searchId, val.filterId || '', val.value)}
-                    ></button>
+                    />
                 )}
                 <button
-                    className={cx('filter-btn toggle-show', {
-                        hide: !val.isEnabled,
+                    className={cx(styles.filterBtn, styles.toggleShow, {
+                        [styles.hide]: !val.isEnabled,
                     })}
                     title="Toggle show/hide"
                     onClick={() => toogleVisibilityFilter(val.searchId, val.filterId)}
                 />
                 <button
-                    className="filter-btn del"
+                    className={styles.filterBtn}
                     title="Delete"
                     onClick={() => removeFilter(val.searchId, val.filterId)}
                 >
@@ -57,9 +59,5 @@ export const SearchFilters: FC<{
         );
     };
 
-    return (
-        <div className="active-filters">
-            <>{activeFilters.map((val) => renderActiveFilter(val))}</>
-        </div>
-    );
+    return <div className={styles.activeFilters}>{activeFilters.map((val) => renderActiveFilter(val))}</div>;
 };

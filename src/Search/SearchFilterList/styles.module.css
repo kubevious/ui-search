@@ -1,0 +1,22 @@
+.filterList, .filterList:focus, .filterList:active {
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 0;
+    outline: none;
+}
+
+.filterBox {
+    display: flex;
+    flex-flow: column;
+    flex-basis: 15%;
+    margin-right: 50px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    max-height: -webkit-fill-available;
+    max-height: -moz-fit-content;
+    padding-right: 5px;
+    overflow-y: auto;
+    position: relative;
+}
