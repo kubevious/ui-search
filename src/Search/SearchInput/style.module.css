@@ -1,16 +1,3 @@
-.searchInput {
-    font-size: 22px;
-    font-weight: 700;
-    background: transparent;
-    border: 1px solid #ccc;
-    border-radius: 0;
-    color: #fff;
-    padding: 15px;
-}
-
-.searchInput:focus {
-    border: 1px solid yellow;
-    background: transparent;
-    color: #fff;
-    outline: none;
+.wrapper > div {
+    width: 100%;
 }

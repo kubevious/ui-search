@@ -92,7 +92,6 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
     return (
         <div className={styles.filterInputBox}>
             <Fragment key="Label">
-                <label ref={labelsRef}>Label</label>
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocompleteKeyResults}
@@ -101,7 +100,14 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
                     onSelect={(val) => handleKeyInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => <input disabled={!!editedLabels.filter} {...props} />}
+                    renderInput={(props) => (
+                        <input
+                            placeholder="Label"
+                            disabled={!!editedLabels.filter}
+                            className={styles.input}
+                            {...props}
+                        />
+                    )}
                     onMenuVisibilityChange={() => handleKeyInput(currentKey)}
                 />
                 <Autocomplete
@@ -112,21 +118,19 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
                     onSelect={(val) => handleValueInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => <input disabled={!currentKey.trim()} {...props} />}
+                    renderInput={(props) => (
+                        <input placeholder="Value" disabled={!currentKey.trim()} className={styles.input} {...props} />
+                    )}
                     onMenuVisibilityChange={() => handleValueInput(currentValue)}
                 />
             </Fragment>
+
             {currentKey.trim() && currentValue.trim() && (
                 <div className={styles.filterInputBtns}>
-                    <button
-                        type="button"
-                        className={styles.addFilterBtn}
-                        onClick={() => addInputField(editedLabels.filter)}
-                    >
+                    <button className={styles.clearFilterBtn} onClick={() => handleClearFilter(editedLabels.filter)}>Clear</button>
+
+                    <button className={styles.addFilterBtn} onClick={() => addInputField(editedLabels.filter)}>
                         {editedLabels.filter ? 'Update' : 'Add'}
-                    </button>
-                    <button type="button" onClick={() => handleClearFilter(editedLabels.filter)}>
-                        Remove
                     </button>
                 </div>
             )}

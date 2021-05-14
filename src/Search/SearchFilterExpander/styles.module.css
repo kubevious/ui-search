@@ -10,11 +10,16 @@
 
 summary {
     min-height: unset;
+    padding: 5px 0;
+    border-bottom: 1px solid #656565;
+    font-size: 12px;
+    line-height: 14px;
+    color: #9F9F9F;
+    text-transform: uppercase;
 }
 
 details {
-    border: 1px solid #ccc;
-    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
 details:last-child {
@@ -26,12 +31,15 @@ details:first-child {
 }
 
 .inner {
-    padding-left: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
+    padding: 5px 0;
+    font-size: 12px;
+    line-height: 14px;
+    color: #9F9F9F;
+    text-transform: uppercase;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #656565;
 }
 
 .inner:focus, .inner:active {
@@ -40,15 +48,6 @@ details:first-child {
 
 .inner::-webkit-details-marker {
     order: 1;
-}
-
-.inner.isActive:after {
-    content: '';
-    position: relative;
-    display: flex;
-    margin: 0 20px 0 auto;
-    border: 6px solid #f2a81c;
-    border-radius: 10px;
 }
 
 .clearButton {

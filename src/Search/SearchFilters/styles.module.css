@@ -11,16 +11,13 @@
 }
 
 .activeFilterBox {
-    padding: 0 0 0 10px;
-    border-radius: 2px;
-    color: black;
-    background-color: #ccc;
+    background: #2F3036;
+    border: 1px solid #656565;
     display: flex;
-    margin: 0 20px 15px 0;
-    height: fit-content;
-    font-weight: 600;
-    line-height: 26px;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 1px;
+    margin-right: 10px;
 }
 
 .filterKey {
@@ -44,6 +41,8 @@
 
 .filterBtn {
     display: flex;
+    justify-content: center;
+    align-items: center;
     background: #8d8d8d;
     color: black;
     padding: 0 5px;
@@ -52,7 +51,11 @@
     line-height: 26px;
     font-weight: 600;
     border: none;
-    border-left: 1px solid #ccc;
+    margin-right: 1px;
+}
+
+.filterBtn:last-child {
+    margin-right: 0;
 }
 
 .filterBtn:hover {

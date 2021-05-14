@@ -45,7 +45,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
                         defaultFilter: null,
                         filters: {},
                     };
-                    for (let filter of _.values(sourceFilterSearchData.filters)) {
+                    for (const filter of _.values(sourceFilterSearchData.filters)) {
                         if (filter.isEnabled && filter.filterId) {
                             filterSearchData.filters[filter.filterId] = filter;
                         }
@@ -66,6 +66,7 @@ export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = 
 
                     const onFilterRemoveAll = (
                         e:
+                            | React.ChangeEvent
                             | React.MouseEvent<SVGSVGElement, MouseEvent>
                             | React.MouseEvent<HTMLButtonElement, MouseEvent>,
                     ) => {

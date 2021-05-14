@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { Input } from '@kubevious/ui-components';
+import React, { FC, useState } from 'react';
 import cx from 'classnames';
 
 import styles from './style.module.css';
@@ -7,7 +8,7 @@ export interface SearchInputProps {
     updateSearchCriteria: (value: string) => void;
 }
 
-export const SearchInput: React.FunctionComponent<SearchInputProps> = ({ updateSearchCriteria }) => {
+export const SearchInput: FC<SearchInputProps> = ({ updateSearchCriteria }) => {
     const [criteria, setCriteria] = useState<string>('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -17,15 +18,8 @@ export const SearchInput: React.FunctionComponent<SearchInputProps> = ({ updateS
     };
 
     return (
-        <div className="form-group d-flex mb-3">
-            <input
-                type="text"
-                className={cx('form-control', styles.searchInput)}
-                placeholder="Search"
-                value={criteria}
-                autoFocus
-                onChange={handleChange}
-            />
+        <div className={cx('form-group d-flex mb-3', styles.wrapper)}>
+            <Input type="text" placeholder="Search" value={criteria} autoFocus onChange={handleChange} />
         </div>
     );
 };

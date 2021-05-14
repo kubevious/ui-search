@@ -2,7 +2,6 @@ import _ from 'the-lodash';
 import React from 'react';
 import { ClassComponent } from '@kubevious/ui-framework';
 
-// import './styles.scss';
 import { ISearchService } from '@kubevious/ui-middleware';
 import { SearchData, FilterValue, FilterMetaData, FilterComponentData } from '../types';
 import { SearchInput } from './SearchInput';
@@ -34,7 +33,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
         const backendData = {};
 
-        for (let filterData of _.values(componentData.filters)) {
+        for (const filterData of _.values(componentData.filters)) {
             if (filterData.isEnabled) {
                 if (filterData.filterId) {
                     backendData[filterData.filterId] = filterData.value;
@@ -95,16 +94,16 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         this.addFilter = this.addFilter.bind(this);
         this.removeFilter = this.removeFilter.bind(this);
         this.removeAllFilters = this.removeAllFilters.bind(this);
-        this.toogleVisibilityFilter = this.toogleVisibilityFilter.bind(this);
+        this.toggleVisibilityFilter = this.toggleVisibilityFilter.bind(this);
         this.setFullTextCriteria = this.setFullTextCriteria.bind(this);
     }
 
     private fetchSearchResults() {
         const { searchData } = this.state;
 
-        let backendData = {};
+        const backendData = {};
 
-        for (let componentData of _.values(searchData.components)) {
+        for (const componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId];
             if (componentMetadata) {
                 const componentPayload = this._buildComponentQuery(componentData);
@@ -205,7 +204,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
     private _buildActiveFilters(searchData: SearchData) {
         let activeFilters: FilterValue[] = [];
-        for (let componentData of _.values(searchData.components)) {
+        for (const componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId];
             if (componentMetadata) {
                 if (componentMetadata.component) {
@@ -222,7 +221,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     private _setupSearchData(searchData: SearchData) {
         console.log('[_setupSearchData] SearchData: ', searchData);
 
-        let activeFilters = this._buildActiveFilters(searchData);
+        const activeFilters = this._buildActiveFilters(searchData);
 
         this.sharedState.set('search_filter_data', searchData);
 
@@ -232,7 +231,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         });
     }
 
-    private toogleVisibilityFilter = (searchId: string, filterId: string) => {
+    private toggleVisibilityFilter = (searchId: string, filterId: string) => {
         const { searchData } = this.state;
         const { isEnabled } = searchData.components[searchId].filters[filterId];
         searchData.components[searchId].filters[filterId].isEnabled = !isEnabled;
@@ -258,7 +257,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                     filterList={this._filterList}
                     activeFilters={activeFilters}
                     removeFilter={this.removeFilter}
-                    toogleVisibilityFilter={this.toogleVisibilityFilter}
+                    toggleVisibilityFilter={this.toggleVisibilityFilter}
                     refs={this.state.refs}
                 />
                 <div className={styles.searchArea}>

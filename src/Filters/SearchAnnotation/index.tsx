@@ -91,7 +91,6 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
     return (
         <div className={styles.filterInputBox}>
             <Fragment key="Annotation">
-                <label ref={annotationsRef}>Annotation</label>
                 <Autocomplete
                     getItemValue={(value) => value}
                     items={autocompleteKeyResults}
@@ -100,7 +99,14 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
                     onSelect={(val) => handleKeyInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => <input disabled={!!editedAnnotations.filter} {...props} />}
+                    renderInput={(props) => (
+                        <input
+                            disabled={!!editedAnnotations.filter}
+                            className={styles.input}
+                            placeholder="Annotation"
+                            {...props}
+                        />
+                    )}
                     onMenuVisibilityChange={() => handleKeyInput(currentKey)}
                 />
                 <Autocomplete
@@ -111,7 +117,9 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
                     onSelect={(val) => handleValueInput(val)}
                     renderItem={(content) => <div>{content}</div>}
                     renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => <input disabled={!currentKey.trim()} {...props} />}
+                    renderInput={(props) => (
+                        <input disabled={!currentKey.trim()} className={styles.input} placeholder="Value" {...props} />
+                    )}
                     onMenuVisibilityChange={() => handleValueInput(currentValue)}
                 />
             </Fragment>
@@ -119,13 +127,18 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
                 <div className={styles.filterInputBtns}>
                     <button
                         type="button"
+                        onClick={() => handleClearFilter(editedAnnotations.filter)}
+                        className={styles.clearFilterBtn}
+                    >
+                        Clear
+                    </button>
+
+                    <button
+                        type="button"
                         className={styles.addFilterBtn}
                         onClick={() => addInputField(editedAnnotations.filter)}
                     >
-                        {!!editedAnnotations.filter ? 'Update' : 'Add'}
-                    </button>
-                    <button type="button" onClick={() => handleClearFilter(editedAnnotations.filter)}>
-                        Remove
+                        {editedAnnotations.filter ? 'Update' : 'Add'}
                     </button>
                 </div>
             )}

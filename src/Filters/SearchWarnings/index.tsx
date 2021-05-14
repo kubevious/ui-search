@@ -1,7 +1,7 @@
+import { Checkbox } from '@kubevious/ui-components';
 import React, { FC } from 'react';
 import { FILTER_ENTRIES_WARNINGS } from './constants';
 import { FilterComponentProps, FilterEntry } from '../types';
-import classnames from 'classnames';
 
 import styles from '../styles.module.css';
 
@@ -19,13 +19,13 @@ export const FilterSearchWarnings: FC<FilterComponentProps> = ({ data, addFilter
     return (
         <div className={styles.innerItems}>
             {FILTER_ENTRIES_WARNINGS.map((option, index) => (
-                <button
-                    key={index}
-                    className={classnames({ [styles.selectedFilter]: option.caption === selectedFilter })}
-                    onClick={() => handleFilterChange(option)}
-                >
-                    {option.caption}
-                </button>
+                <div key={index} className={styles.itemBlock}>
+                    <Checkbox
+                        label={option.caption}
+                        onChange={() => handleFilterChange(option)}
+                        checked={option.caption === selectedFilter}
+                    />
+                </div>
             ))}
         </div>
     );

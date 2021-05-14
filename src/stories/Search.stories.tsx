@@ -1,3 +1,4 @@
+import { InnerPage, PageHeader } from '@kubevious/ui-components';
 import { Story } from '@storybook/react';
 import React from 'react';
 import {
@@ -23,9 +24,9 @@ const SEARCH_FILTER_METADATA: FilterMetaData[] = [
         title: 'criteria',
     },
     {
-        searchId: 'kinds',
-        payload: 'kinds',
-        title: 'Kinds',
+        searchId: 'kind',
+        payload: 'kind',
+        title: 'Kind',
         component: FilterSearchKinds,
     },
     {
@@ -65,7 +66,9 @@ const SEARCH_FILTER_METADATA: FilterMetaData[] = [
 setupMock();
 
 export const Default: Story = () => (
-    <div style={{ background: '#0b0b0c', padding: '20px' }}>
-        <Search filterList={SEARCH_FILTER_METADATA} />
+    <div style={{ background: '#2f3036' }}>
+        <InnerPage header={<PageHeader title="Search" />}>
+            <Search filterList={SEARCH_FILTER_METADATA} />
+        </InnerPage>
     </div>
 );

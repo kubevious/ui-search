@@ -3,7 +3,7 @@ import { KindListValue } from './types';
 import _ from 'lodash';
 import { FilterComponentProps } from '../types';
 import { KIND_TO_USER_MAPPING } from '@kubevious/helpers/dist/docs';
-import classnames from 'classnames';
+import { Checkbox } from '@kubevious/ui-components';
 
 import styles from '../styles.module.css';
 
@@ -22,12 +22,9 @@ export const FilterSearchKinds: FC<FilterComponentProps> = ({ data, addFilter, r
         getKindsList();
     }, []);
 
-    const kindFilterChange = (
-        title: string,
-        payload: string,
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    ): void => {
+    const kindFilterChange = (title: string, payload: string, e: React.ChangeEvent): void => {
         removeAllFilters(e);
+
         if (!selectedKinds[payload]) {
             addFilter(payload, title, true);
         }
@@ -36,13 +33,13 @@ export const FilterSearchKinds: FC<FilterComponentProps> = ({ data, addFilter, r
     return (
         <div className={styles.innerItems}>
             {kinds.map((item, index) => (
-                <button
-                    key={index}
-                    className={classnames({ [styles.selectedFilter]: selectedKinds[item.payload] })}
-                    onClick={(e) => kindFilterChange(item.title, item.payload, e)}
-                >
-                    {item.title || ''}
-                </button>
+                <div className={styles.itemBlock} key={index}>
+                    <Checkbox
+                        label={item.title || ''}
+                        checked={!!selectedKinds[item.payload]}
+                        onChange={(e) => kindFilterChange(item.title, item.payload, e)}
+                    />
+                </div>
             ))}
         </div>
     );
