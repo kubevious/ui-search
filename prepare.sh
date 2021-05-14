@@ -8,6 +8,6 @@ rm -rf dist/
 
 npm install
 
-${MY_DIR}/update-dependecies.sh
+${MY_DIR}/update-dependencies.sh
 
 ${MY_DIR}/build.sh

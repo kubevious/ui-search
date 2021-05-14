@@ -9,6 +9,5 @@ npm update \
     @kubevious/helpers \
     @kubevious/ui-framework \
     @kubevious/ui-middleware \
-    @kubevious/ui-components \
-    @kubevious/ui-rule-engine
+    @kubevious/ui-components
 

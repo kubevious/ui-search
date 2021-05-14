@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { FilterComponentProps } from '../types';
 import { useSharedState } from '@kubevious/ui-framework';
 import classnames from 'classnames';
-import { MarkerPreview } from '@kubevious/ui-rule-engine'
+import { MarkerPreview } from '@kubevious/ui-components'
 
 import styles from '../styles.module.css';
 import { MarkerConfig } from '@kubevious/ui-middleware/dist/services/marker';
