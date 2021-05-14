@@ -1,30 +1,30 @@
 import React, { FC, useState } from 'react';
 import { MarkerPreview } from '@kubevious/ui-rule-engine';
-import { MarkersList, MarkerItem } from './types';
 import { FilterComponentProps } from '../types';
 import { useSharedState } from '@kubevious/ui-framework';
 import classnames from 'classnames';
 
 import styles from '../styles.module.css';
+import { MarkerConfig } from '@kubevious/ui-middleware/dist/services/marker';
 
 export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter, removeFilter }) => {
-    const [markers, setMarkers] = useState<MarkersList>({
-        payload: 'markers',
-        shownValue: 'Markers',
-        values: [],
-    });
+    const [markers, setMarkers] = useState<MarkerConfig[]>([]);
 
     useSharedState((sharedState) => {
-        const markersFromState = sharedState.get('marker_editor_items');
-        setMarkers({
-            payload: 'markers',
-            shownValue: 'Markers',
-            values: markersFromState,
-        });
+
+        sharedState.set("need_markers_list", true);
+
+        sharedState.subscribe("markers_list", markers_list => {
+            setMarkers(markers_list || []);
+        })
+
+        return () => {
+            sharedState.set("need_markers_list", false);
+        };
     });
 
     const markerFilterChange = (title: string): void => {
-        const newMarker: MarkerItem | undefined = markers.values.find((marker: MarkerItem) => marker.name === title);
+        const newMarker = markers.find((marker) => marker.name === title);
 
         if (!newMarker || !newMarker.name) {
             return;
@@ -40,8 +40,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
 
     return (
         <div className={styles.innerItems}>
-            {markers.values &&
-                markers.values.map((item) => {
+            {markers.map((item) => {
                     const name = item.name || '';
                     return (
                         <button
@@ -54,7 +53,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
                             {name}
                         </button>
                     );
-                })}
+            })}
         </div>
     );
 };
