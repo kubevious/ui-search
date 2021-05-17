@@ -18,5 +18,6 @@
     max-height: -moz-fit-content;
     padding-right: 5px;
     overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
 }

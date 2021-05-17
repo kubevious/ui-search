@@ -1,7 +1,7 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import React, { FC } from 'react';
-import cx from 'classnames';
 import { sharedState } from '@kubevious/ui-framework/dist/global';
+import cx from 'classnames';
 
 import { FilterMetaData, FilterValue } from '../../types';
 
@@ -45,7 +45,9 @@ export const SearchFilters: FC<{
                         <button
                             className={cx(styles.filterBtn, styles.edit)}
                             onClick={() => handleEditFilter(val.searchId, val.filterId || '', val.value)}
-                        />
+                        >
+                            <FontAwesomeIcon icon={faPen} size="xs" color="white" style={{ width: '10px' }} />
+                        </button>
                     )}
 
                     <button
@@ -57,7 +59,7 @@ export const SearchFilters: FC<{
                     />
 
                     <button
-                        className={styles.filterBtn}
+                        className={cx(styles.filterBtn, styles.deleteButton)}
                         title="Delete"
                         onClick={() => removeFilter(val.searchId, val.filterId)}
                     >

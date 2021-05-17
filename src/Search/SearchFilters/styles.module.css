@@ -70,6 +70,10 @@
     border-radius: 0 2px 2px 0;
 }
 
+.deleteButton:hover {
+    background: #F34C4C;
+}
+
 .activeFilterBox.deactivated .filterBtn {
     border-left: 1px solid #666666;
 }
@@ -78,12 +82,8 @@
     padding: 0 5px;
 }
 
-.edit:before {
-    content: '';
-    width: 20px;
-    height: 25px;
-    background-color: #ccc;
-    background: url('/img/search/edit.svg') no-repeat center center;
+.edit:hover {
+    background: #1E9AE4;
 }
 
 .toggleShow {

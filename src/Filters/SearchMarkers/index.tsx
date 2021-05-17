@@ -1,8 +1,7 @@
 import React, { FC, useState } from 'react';
 import { FilterComponentProps } from '../types';
 import { useSharedState } from '@kubevious/ui-framework';
-import classnames from 'classnames';
-import { MarkerPreview } from '@kubevious/ui-components'
+import { Checkbox, MarkerPreview } from '@kubevious/ui-components';
 
 import styles from '../styles.module.css';
 import { MarkerConfig } from '@kubevious/ui-middleware/dist/services/marker';
@@ -14,7 +13,22 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
         sharedState.set('need_markers_list', true);
 
         sharedState.subscribe('markers_list', (markers_list) => {
-            setMarkers(markers_list || []);
+            setMarkers(
+                markers_list || [
+                    {
+                        name: 'marker 1',
+                        shape: 'f164',
+                        color: '#FFFFFF',
+                        propagate: false,
+                    },
+                    {
+                        name: 'marker 2',
+                        shape: 'f164',
+                        color: '#FFFFFF',
+                        propagate: true,
+                    },
+                ],
+            );
         });
 
         return () => {
@@ -40,18 +54,21 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
 
     return (
         <div className={styles.innerItems}>
-            {markers.map((item) => {
+            {markers.map((item, index) => {
                 const name = item.name || '';
                 return (
-                    <button
-                        title={name}
-                        key={name}
-                        className={classnames({ [styles.selectedFilter]: data.filters[name] })}
-                        onClick={() => handleMarkerFilterChange(name)}
-                    >
-                        <MarkerPreview shape={item.shape} color={item.color} />
-                        {name}
-                    </button>
+                    <div className={styles.itemBlock} key={index}>
+                        <Checkbox
+                            label={
+                                <>
+                                    <MarkerPreview shape={item.shape} color={item.color} />
+                                    <span className={styles.textWrapper}>{name}</span>
+                                </>
+                            }
+                            checked={!!data.filters[name]}
+                            onChange={() => handleMarkerFilterChange(name)}
+                        />
+                    </div>
                 );
             })}
         </div>
