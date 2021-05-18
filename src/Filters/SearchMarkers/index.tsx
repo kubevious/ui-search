@@ -13,22 +13,7 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
         sharedState.set('need_markers_list', true);
 
         sharedState.subscribe('markers_list', (markers_list) => {
-            setMarkers(
-                markers_list || [
-                    {
-                        name: 'marker 1',
-                        shape: 'f164',
-                        color: '#FFFFFF',
-                        propagate: false,
-                    },
-                    {
-                        name: 'marker 2',
-                        shape: 'f164',
-                        color: '#FFFFFF',
-                        propagate: true,
-                    },
-                ],
-            );
+            setMarkers(markers_list || []);
         });
 
         return () => {

@@ -15,9 +15,14 @@ export const SearchFilterExpander: FC<{
 
     const isActive = _.keys(data.filters).length > 0;
 
+    const handleToggle = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsOpen(!isOpen);
+    };
+
     return (
         <details open={isOpen} key={filter.payload}>
-            <summary onClick={() => setIsOpen(!isOpen)}>
+            <summary onClick={handleToggle} className={styles.expanderContent}>
                 <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} style={{ marginRight: '5px' }} />
 
                 {filter.title}

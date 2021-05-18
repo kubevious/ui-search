@@ -8,14 +8,19 @@
     outline: none;
 }
 
-summary {
+.expanderContent {
     min-height: unset;
     padding: 5px 0;
     border-bottom: 1px solid #656565;
     font-size: 12px;
     line-height: 14px;
-    color: #9F9F9F;
+    color: #9f9f9f;
     text-transform: uppercase;
+    list-style: none;
+}
+
+.expanderContent::marker {
+    display: none;
 }
 
 details {
@@ -34,7 +39,7 @@ details:first-child {
     padding: 5px 0;
     font-size: 12px;
     line-height: 14px;
-    color: #9F9F9F;
+    color: #9f9f9f;
     text-transform: uppercase;
     display: flex;
     justify-content: space-between;
@@ -42,7 +47,8 @@ details:first-child {
     border-bottom: 1px solid #656565;
 }
 
-.inner:focus, .inner:active {
+.inner:focus,
+.inner:active {
     outline: none;
 }
 
