@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DnShortcutComponent } from '@kubevious/ui-components';
+import { DnResults } from '@kubevious/ui-components';
 import { LIMITED_RESULTS_MSG, NO_ITEMS_MATCHING_MSG, NO_SEARCH_RESULT_MSG } from '../constants';
 import { isEmptyArray } from '../util';
 import { SelectedData } from '../../types';
@@ -28,7 +28,9 @@ export const SearchResults = () => {
                 </div>
             ) : (
                 <>
-                    {result && result.map((item, index) => <DnShortcutComponent key={index} dn={item.dn} />)}
+                    {result && 
+                        <DnResults items={result} />
+                    }
                     {result.length < totalCount && (
                         <div className={styles.limitedResultsMsg}>{LIMITED_RESULTS_MSG}</div>
                     )}
