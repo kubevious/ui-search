@@ -29,9 +29,10 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         { kind: 'search' },
         (service) => {
             if (autocompleteKey) {
-                service.autocompleteLabelKeys(autocompleteKey, (data) => {
-                    setAutocompleteKeyResults(data);
-                });
+                service.autocompleteLabelKeys(autocompleteKey)
+                    .then(data => {
+                        setAutocompleteKeyResults(data);
+                    });
             } else {
                 setAutocompleteKeyResults([]);
             }
@@ -43,9 +44,10 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         { kind: 'search' },
         (service) => {
             if (autocompleteKey && autocompleteValue) {
-                service.autocompleteLabelValues(autocompleteKey, autocompleteValue, (data) => {
-                    setAutocompleteValueResults(data);
-                });
+                service.autocompleteLabelValues(autocompleteKey, autocompleteValue)
+                    .then((data) => {
+                        setAutocompleteValueResults(data);
+                    });
             } else {
                 setAutocompleteValueResults([]);
             }

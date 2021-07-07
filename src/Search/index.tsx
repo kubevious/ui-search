@@ -10,6 +10,7 @@ import { SearchResults } from './SearchResults';
 import { SearchFilterList } from './SearchFilterList';
 
 import styles from './styles.module.css';
+import { SearchQueryItem } from '@kubevious/ui-middleware/dist/services/search';
 
 interface TSearchState {
     searchData: SearchData;
@@ -17,12 +18,14 @@ interface TSearchState {
     refs: {
         [name: string]: React.MutableRefObject<null>;
     };
+    wasFiltered: boolean;
+    results: SearchQueryItem[];
+    totalCount: number;
 }
-
-const isTesting = process.env.IS_TESTING;
 
 export type SearchProps = {
     filterList: FilterMetaData[];
+    initSearchData?: SearchData;
 };
 
 export class Search extends ClassComponent<SearchProps, TSearchState, ISearchService> {
@@ -51,7 +54,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     private _filterList: FilterMetaData[];
     private _metadataDict: Record<string, FilterMetaData>;
 
-    constructor(props: any) {
+    constructor(props: SearchProps) {
         //
         // During testing, we do not implement
         // registration of this service,
@@ -60,7 +63,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         //
         // isTesting ? undefined : { kind: 'search' }
         //
-        super(props, null, isTesting ? undefined : { kind: 'search' });
+        super(props, null, { kind: 'search' });
 
         this._metadataDict = _.makeDict(
             this.props.filterList,
@@ -70,25 +73,39 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
         this._filterList = this.props.filterList;
 
-        let searchData: SearchData = this.sharedState.get('search_filter_data');
-        if (!searchData) {
-            searchData = {
-                components: _.makeDict(
-                    this._filterList,
-                    (x) => x.searchId,
-                    (x) => ({
-                        searchId: x.searchId,
-                        defaultFilter: null,
-                        filters: {},
-                    }),
-                ),
-            };
+        let searchData: SearchData | undefined = undefined;
+        if (props.initSearchData) {
+            searchData = props.initSearchData!;
         }
+        if (!searchData) {
+            searchData = this.sharedState.get('search_filter_data');
+        }
+
+        if (searchData) {
+            searchData = _.clone(searchData);
+        } else {
+            searchData = { components: {} };
+        }
+
+        for(let filter of this._filterList) {
+            if (!searchData.components[filter.searchId]) {
+                searchData.components[filter.searchId] = {
+                    searchId: filter.searchId,
+                    defaultFilter: null,
+                    filters: {},
+                };
+            }
+        }
+
+        console.error("[SEARCH] INIT DATA: ", searchData);
 
         this.state = {
             searchData: searchData,
             activeFilters: this._buildActiveFilters(searchData),
             refs: {},
+            wasFiltered: false,
+            results: [],
+            totalCount: 0
         };
 
         this.addFilter = this.addFilter.bind(this);
@@ -96,6 +113,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         this.removeAllFilters = this.removeAllFilters.bind(this);
         this.toggleVisibilityFilter = this.toggleVisibilityFilter.bind(this);
         this.setFullTextCriteria = this.setFullTextCriteria.bind(this);
+
     }
 
     private fetchSearchResults() {
@@ -116,21 +134,35 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
             }
         }
 
-        // console.log(
-        //     "[SEARCH QUERY DATA] ",
-        //     JSON.stringify(backendData, null, 4)
-        // )
+        console.log(
+            "[SEARCH QUERY DATA] ",
+            JSON.stringify(backendData, null, 4)
+        )
 
-        this.service.fetchSearchResults(backendData, (response: any) => {
-            if (response.results) {
-                this.sharedState.set('was_filtered', response.wasFiltered);
-                this.sharedState.set('search_result', response.results);
-                this.sharedState.set('total_count', response.totalCount);
-            } else {
-                this.sharedState.set('search_result', response);
-                this.sharedState.set('total_count', response.length);
-            }
-        });
+        this.service.fetchSearchResults(backendData)
+            .then((response) => {
+                if (response.results) {
+
+                    this.setState({
+                        wasFiltered: response.wasFiltered,
+                        results: response.results,
+                        totalCount: response.totalCount
+                    });
+
+                    // this.sharedState.set('was_filtered', response.wasFiltered);
+                    // this.sharedState.set('search_result', response.results);
+                    // this.sharedState.set('total_count', response.totalCount);
+                } else {
+                    // this.sharedState.set('search_result', []);
+                    // this.sharedState.set('total_count', 0);
+
+                    this.setState({
+                        wasFiltered: false,
+                        results: [],
+                        totalCount: 0
+                    });
+                }
+            });
     }
 
     private addFilter(
@@ -247,6 +279,13 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         }
     }
 
+    componentDidMount()
+    {
+        setTimeout(() => {
+            this.fetchSearchResults();
+        }, 0)
+    }
+
     render() {
         const { activeFilters, searchData } = this.state;
 
@@ -259,7 +298,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                     removeFilter={this.removeFilter}
                     toggleVisibilityFilter={this.toggleVisibilityFilter}
                     refs={this.state.refs}
-                />
+                    />
                 <div className={styles.searchArea}>
                     <SearchFilterList
                         filterList={this._filterList}
@@ -267,8 +306,13 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                         addFilter={this.addFilter}
                         removeFilter={this.removeFilter}
                         removeAllFilters={this.removeAllFilters}
-                    />
-                    <SearchResults />
+                        />
+
+                    <SearchResults
+                        wasFiltered={this.state.wasFiltered}
+                        result={this.state.results}
+                        totalCount={this.state.totalCount}
+                        />
                 </div>
             </div>
         );

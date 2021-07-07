@@ -11,7 +11,7 @@ import {
 } from '..';
 import { setupMock } from '../../test/mock/mock';
 import { Search } from '../Search';
-import { FilterMetaData } from '../types';
+import { FilterMetaData, SearchData } from '../types';
 
 import { app } from '@kubevious/ui-framework';
 
@@ -70,7 +70,7 @@ setupMock();
 export const NoCriteria: Story = () => (
     <div style={{ background: '#2f3036' }}>
         <InnerPage header={<PageHeader title="Search" />}>
-            <Search filterList={SEARCH_FILTER_METADATA} />
+            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_EMPTY_FILTER} />
         </InnerPage>
     </div>
 );
@@ -79,11 +79,11 @@ export const NoCriteria: Story = () => (
 export const SomeResults: Story = () => (
     <div style={{ background: '#2f3036' }}>
         <CallbackHook
-            setup={() => app.sharedState.set("search_result", SAMPLE_SEARCH_RESULTS)}
-            cleanup={() => app.sharedState.set("search_result", null)}
+            setup={() => app.sharedState.set("mock_search_result", SAMPLE_SEARCH_RESULTS)}
+            cleanup={() => app.sharedState.set("mock_search_result", null)}
         />
         <InnerPage header={<PageHeader title="Search" />}>
-            <Search filterList={SEARCH_FILTER_METADATA} />
+            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER} />
         </InnerPage>
     </div>
 );
@@ -91,11 +91,15 @@ export const SomeResults: Story = () => (
 export const EmptyResults: Story = () => (
     <div style={{ background: '#2f3036' }}>
         <CallbackHook
-            setup={() => app.sharedState.set("search_result", [])}
-            cleanup={() => app.sharedState.set("search_result", null)}
+            setup={() => {
+                app.sharedState.set("mock_search_result", [])
+            }}
+            cleanup={() => {
+                app.sharedState.set("mock_search_result", null)
+            }}
         />
         <InnerPage header={<PageHeader title="Search" />}>
-            <Search filterList={SEARCH_FILTER_METADATA} />
+            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER2} />
         </InnerPage>
     </div>
 );
@@ -103,11 +107,11 @@ export const EmptyResults: Story = () => (
 export const ClusteredResults: Story = () => (
     <div style={{ background: '#2f3036' }}>
         <CallbackHook
-            setup={() => app.sharedState.set("search_result", SAMPLE_SEARCH_RESULTS_CLUSTERED)}
-            cleanup={() => app.sharedState.set("search_result", null)}
+            setup={() => app.sharedState.set("mock_search_result", SAMPLE_SEARCH_RESULTS_CLUSTERED)}
+            cleanup={() => app.sharedState.set("mock_search_result", null)}
         />
         <InnerPage header={<PageHeader title="Search" />}>
-            <Search filterList={SEARCH_FILTER_METADATA} />
+            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER} />
         </InnerPage>
     </div>
 );
@@ -127,3 +131,45 @@ const SAMPLE_SEARCH_RESULTS_CLUSTERED = [{
     dn: 'root/ns-[kube-system]',
     clusterId: '5678'
 }];
+
+
+const SAMPLE_EMPTY_FILTER : SearchData = {
+    components: {
+    }
+}
+
+const SAMPLE_KIND_FILTER : SearchData = {
+    components: {
+        kind: {
+            searchId: "kind",
+            defaultFilter: null,
+            filters: {
+                app: {
+                    searchId: "kind",
+                    filterId: "app",
+                    caption: "Application",
+                    value: true,
+                    isEnabled: true
+                }
+            }
+        }
+    }
+}
+
+const SAMPLE_KIND_FILTER2 : SearchData = {
+    components: {
+        kind: {
+            searchId: "kind",
+            defaultFilter: null,
+            filters: {
+                app: {
+                    searchId: "kind",
+                    filterId: "cont",
+                    caption: "Container",
+                    value: true,
+                    isEnabled: true
+                }
+            }
+        }
+    }
+}

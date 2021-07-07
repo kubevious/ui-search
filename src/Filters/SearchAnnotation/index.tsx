@@ -28,9 +28,10 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         { kind: 'search' },
         (service) => {
             if (autocompleteKey) {
-                service.autocompleteAnnotationKeys(autocompleteKey, (data) => {
-                    setAutocompleteKeyResults(data);
-                });
+                service.autocompleteAnnotationKeys(autocompleteKey)
+                    .then((data) => {
+                        setAutocompleteKeyResults(data);
+                    });
             } else {
                 setAutocompleteKeyResults([]);
             }
@@ -42,9 +43,10 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         { kind: 'search' },
         (service) => {
             if (autocompleteKey && autocompleteValue) {
-                service.autocompleteAnnotationValues(autocompleteKey, autocompleteValue, (data) => {
-                    setAutocompleteValueResults(data);
-                });
+                service.autocompleteAnnotationValues(autocompleteKey, autocompleteValue)
+                    .then((data) => {
+                        setAutocompleteValueResults(data);
+                    });
             } else {
                 setAutocompleteValueResults([]);
             }

@@ -4,6 +4,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { Search } from '../src';
+import { setupMock } from './mock/mock';
+
+setupMock()
 
 const renderComponent = () => render(<Search filterList={[]} />);
 
