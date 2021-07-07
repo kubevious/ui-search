@@ -97,7 +97,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
             }
         }
 
-        console.error("[SEARCH] INIT DATA: ", searchData);
+        // console.error("[SEARCH] INIT DATA: ", searchData);
 
         this.state = {
             searchData: searchData,
@@ -134,10 +134,10 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
             }
         }
 
-        console.log(
-            "[SEARCH QUERY DATA] ",
-            JSON.stringify(backendData, null, 4)
-        )
+        // console.log(
+        //     "[SEARCH QUERY DATA] ",
+        //     JSON.stringify(backendData, null, 4)
+        // )
 
         this.service.fetchSearchResults(backendData)
             .then((response) => {
