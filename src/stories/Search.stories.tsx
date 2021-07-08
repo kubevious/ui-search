@@ -14,6 +14,7 @@ import { Search } from '../Search';
 import { FilterMetaData, SearchData } from '../types';
 
 import { app } from '@kubevious/ui-framework';
+import { SearchQueryItem } from '@kubevious/ui-middleware/dist/services/search';
 
 export default {
     title: 'Search',
@@ -116,7 +117,7 @@ export const ClusteredResults: Story = () => (
     </div>
 );
 
-const SAMPLE_SEARCH_RESULTS = [{
+const SAMPLE_SEARCH_RESULTS : SearchQueryItem[] = [{
     dn: 'root/ns-[addr]/app-[gprod-addr-main-app]'
 }, {
     dn: 'root/ns-[kube-system]'

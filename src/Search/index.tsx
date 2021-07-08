@@ -141,6 +141,8 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
         this.service.fetchSearchResults(backendData)
             .then((response) => {
+                // console.log("[SEARCH RESULT] ", response)
+
                 if (response.results) {
 
                     this.setState({
@@ -251,7 +253,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     }
 
     private _setupSearchData(searchData: SearchData) {
-        console.log('[_setupSearchData] SearchData: ', searchData);
+        // console.log('[_setupSearchData] SearchData: ', searchData);
 
         const activeFilters = this._buildActiveFilters(searchData);
 
@@ -287,7 +289,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     }
 
     render() {
-        const { activeFilters, searchData } = this.state;
+        const { activeFilters, searchData, wasFiltered, results, totalCount } = this.state;
 
         return (
             <div data-testid="search" className="d-flex flex-column p-40 overflow-hide text-white">
@@ -309,9 +311,9 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                         />
 
                     <SearchResults
-                        wasFiltered={this.state.wasFiltered}
-                        result={this.state.results}
-                        totalCount={this.state.totalCount}
+                        wasFiltered={wasFiltered}
+                        result={results}
+                        totalCount={totalCount}
                         />
                 </div>
             </div>

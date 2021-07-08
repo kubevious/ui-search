@@ -46,18 +46,6 @@ export interface FilterValue {
     isEnabled: boolean;
 }
 
-export interface SelectedData {
-    dn: string;
-    id?: number;
-    errors?: number;
-    warnings?: number;
-    options?: {
-        relativeTo?: string;
-    };
-    markers?: string[];
-}
-
-// TODO: Move types below to /Filters/**/types.ts
 
 export interface AutocompleteValues {
     labels: {

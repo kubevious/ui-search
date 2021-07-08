@@ -2,8 +2,11 @@ import _ from 'the-lodash';
 import { Promise } from 'the-promise';
 import { ISearchService } from '@kubevious/ui-middleware';
 import { app } from '@kubevious/ui-framework';
+import { SearchQueryItem } from '@kubevious/ui-middleware/dist/services/search';
 
 export class SearchService implements ISearchService {
+
+    private _counter : number = 0;
 
     close() {}
 
@@ -24,7 +27,13 @@ export class SearchService implements ISearchService {
             });
         }
         
-        const items : any[] = app.sharedState.get("mock_search_result") || [];
+        this._counter ++;
+        const items : SearchQueryItem[] = _.cloneDeep(app.sharedState.get("mock_search_result") || []);
+
+        for(let x of items)
+        {
+            x.dn = x.dn.replaceAll("gprod-addr-main-app", `gprod-addr-main-app-${this._counter}`)
+        }
 
         return Promise.resolve({
             results: items,
