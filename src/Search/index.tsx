@@ -53,6 +53,8 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
     private _filterList: FilterMetaData[];
     private _metadataDict: Record<string, FilterMetaData>;
+    private _currentBackendData: Record<string, any> = {};
+    private _queryTimeout : NodeJS.Timeout | null = null;
 
     constructor(props: SearchProps) {
         //
@@ -116,10 +118,10 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
     }
 
-    private fetchSearchResults() {
+    private _processSearchChange() {
         const { searchData } = this.state;
 
-        const backendData = {};
+        const backendData : Record<string, any> = {};
 
         for (const componentData of _.values(searchData.components)) {
             const componentMetadata = this._metadataDict[componentData.searchId];
@@ -134,37 +136,71 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
             }
         }
 
-        // console.log(
-        //     "[SEARCH QUERY DATA] ",
-        //     JSON.stringify(backendData, null, 4)
-        // )
+        this._updateSearchBackendData(backendData);
+    }
 
-        this.service.fetchSearchResults(backendData)
-            .then((response) => {
-                // console.log("[SEARCH RESULT] ", response)
-
-                if (response.results) {
-
-                    this.setState({
-                        wasFiltered: response.wasFiltered,
-                        results: response.results,
-                        totalCount: response.totalCount
-                    });
-
-                    // this.sharedState.set('was_filtered', response.wasFiltered);
-                    // this.sharedState.set('search_result', response.results);
-                    // this.sharedState.set('total_count', response.totalCount);
-                } else {
-                    // this.sharedState.set('search_result', []);
-                    // this.sharedState.set('total_count', 0);
-
-                    this.setState({
-                        wasFiltered: false,
-                        results: [],
-                        totalCount: 0
-                    });
-                }
+    private _updateSearchBackendData(backendData: Record<string, any>)
+    {
+        // console.log("[_updateSearchBackendData] ", backendData);
+        this._currentBackendData = backendData;
+        
+        if (_.keys(this._currentBackendData).length == 0) {
+            this.setState({
+                wasFiltered: false,
+                results: [],
+                totalCount: 0
             });
+            return;
+        }
+
+        this._triggerResultQuery();
+    }
+
+    private _triggerResultQuery()
+    {
+        if (this._queryTimeout) {
+            return;
+        }
+
+        this._queryTimeout = setTimeout(() => {
+            this._queryTimeout = null;
+
+            if (_.keys(this._currentBackendData).length == 0) {
+                this.setState({
+                    wasFiltered: false,
+                    results: [],
+                    totalCount: 0
+                });
+                return;
+            }
+
+            const queryData = this._currentBackendData;
+            // console.log("[_triggerResultQuery] Query: ", queryData)
+            this.service.fetchSearchResults(queryData)
+                .then((response) => {
+
+                    if (!_.fastDeepEqual(queryData, this._currentBackendData)) {
+                        return;
+                    }
+
+                    // console.log("[_triggerResultQuery] Result: ", response)
+
+                    if (response.results) {
+
+                        this.setState({
+                            wasFiltered: response.wasFiltered,
+                            results: response.results,
+                            totalCount: response.totalCount
+                        });
+                    } else {
+                        this.setState({
+                            wasFiltered: false,
+                            results: [],
+                            totalCount: 0
+                        });
+                    }
+                });
+        }, 10);
     }
 
     private addFilter(
@@ -233,7 +269,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
         this._setupSearchData(searchData);
 
-        this.fetchSearchResults();
+        this._processSearchChange();
     }
 
     private _buildActiveFilters(searchData: SearchData) {
@@ -284,7 +320,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     componentDidMount()
     {
         setTimeout(() => {
-            this.fetchSearchResults();
+            this._processSearchChange();
         }, 0)
     }
 
