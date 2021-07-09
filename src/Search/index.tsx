@@ -54,7 +54,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
     private _filterList: FilterMetaData[];
     private _metadataDict: Record<string, FilterMetaData>;
     private _currentBackendData: Record<string, any> = {};
-    private _queryTimeout : NodeJS.Timeout | null = null;
+    private _queryTimeout : any = null;
 
     constructor(props: SearchProps) {
         //
