@@ -1535,6 +1535,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@kubevious/entity-meta@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@kubevious/entity-meta/-/entity-meta-1.0.18.tgz#d9b07ec2d05d17659bb2735dda1067e185912018"
+  integrity sha512-LuCwWeJmhGPfP1lNDmkSZtdBN3XYXSX6McL3x+Pgmxx0+viPdAHk16s2UKzSN/3UXztXQ0VOvfnhxxDmFLxeUQ==
+  dependencies:
+    the-lodash "^2.0.9"
+
 "@kubevious/helpers@^1.0.62":
   version "1.0.62"
   resolved "https://registry.yarnpkg.com/@kubevious/helpers/-/helpers-1.0.62.tgz#68a9079411b7ec8a1cb6a15d6d3c458f54b51ff9"
@@ -1555,18 +1562,18 @@
     the-promise "^2.0.12"
     uuid "^8.3.2"
 
-"@kubevious/ui-components@^1.0.159":
-  version "1.0.159"
-  resolved "https://registry.yarnpkg.com/@kubevious/ui-components/-/ui-components-1.0.159.tgz#3934905a8ca9d1458b092932d73ff2c1b69cd86d"
-  integrity sha512-Dlo8SM+IfxOFs6efIcg0XMmU+mcAvasv7taQZ2Yf910HZSrNAPg+1GW9ZL7xbGONVeSgMnccy73MVc3fyYfinA==
+"@kubevious/ui-components@^1.0.170":
+  version "1.0.170"
+  resolved "https://registry.yarnpkg.com/@kubevious/ui-components/-/ui-components-1.0.170.tgz#5dfa5d457fc6a4ba3119c598cf290308944c34ce"
+  integrity sha512-tastCES538+n16nvjer8Eo0Hoe4jzmNjoRKwbcN2zzDlJp4p38GG6fgiz0IdZk0fH/xnrRXv/j+XWj6l4VJFaw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-regular-svg-icons" "^5.15.1"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
     "@fortawesome/react-fontawesome" "^0.1.14"
-    "@kubevious/helpers" "^1.0.62"
+    "@kubevious/entity-meta" "^1.0.18"
     "@kubevious/ui-framework" "^1.0.50"
-    "@kubevious/ui-middleware" "^1.0.38"
+    "@kubevious/ui-middleware" "^1.0.39"
     bootstrap "^5.0.0"
     classnames "^2.2.6"
     codemirror "^5.60.0"
@@ -1596,10 +1603,10 @@
     the-promise "^2.0.13"
     uuid "^8.3.2"
 
-"@kubevious/ui-middleware@^1.0.38":
-  version "1.0.38"
-  resolved "https://registry.yarnpkg.com/@kubevious/ui-middleware/-/ui-middleware-1.0.38.tgz#a366f2a5fab77855d9dae2adf82db559a92f0ed3"
-  integrity sha512-IYZt1p8slQYyofOyLrBkKN/7CxCUwZul71QfRFcZo3Y/9sETItfRr9oPStpy5sXizRDuXr22kFlnXFWc7pf9WQ==
+"@kubevious/ui-middleware@^1.0.39":
+  version "1.0.39"
+  resolved "https://registry.yarnpkg.com/@kubevious/ui-middleware/-/ui-middleware-1.0.39.tgz#8a90bb3ce0dce5d61409eed79321ec92b3aa3d62"
+  integrity sha512-zkmY/KDD+tHCYTJ+3GZ24MA91puwLjkoFMvT35RqmrBB/4xBOprNTsYF431mcyo0bh4J5MxxqC2SwGqXoJQicw==
   dependencies:
     the-promise "^2.0.13"
 

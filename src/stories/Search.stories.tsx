@@ -66,15 +66,18 @@ const SEARCH_FILTER_METADATA: FilterMetaData[] = [
     },
 ];
 
+
 setupMock();
 
-export const NoCriteria: Story = () => (
-    <div style={{ background: '#2f3036' }}>
-        <InnerPage header={<PageHeader title="Search" />}>
-            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_EMPTY_FILTER} />
-        </InnerPage>
-    </div>
-);
+export const NoCriteria: Story = () => {
+    return (
+        <div style={{ background: '#2f3036' }}>
+            <InnerPage header={<PageHeader title="Search" />}>
+                <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_EMPTY_FILTER} />
+            </InnerPage>
+        </div>
+    )
+};
 
 
 export const SomeResults: Story = () => (
@@ -118,18 +121,18 @@ export const ClusteredResults: Story = () => (
 );
 
 const SAMPLE_SEARCH_RESULTS : SearchQueryItem[] = [{
-    dn: 'root/ns-[addr]/app-[gprod-addr-main-app]'
+    dn: 'root/logic/ns-[addr]/app-[gprod-addr-main-app]'
 }, {
-    dn: 'root/ns-[kube-system]'
+    dn: 'root/logic/ns-[kube-system]'
 }];
 
 
 
 const SAMPLE_SEARCH_RESULTS_CLUSTERED = [{
-    dn: 'root/ns-[addr]/app-[gprod-addr-main-app]',
+    dn: 'root/logic/ns-[addr]/app-[gprod-addr-main-app]',
     clusterId: '1234'
 }, {
-    dn: 'root/ns-[kube-system]',
+    dn: 'root/logic/ns-[kube-system]',
     clusterId: '5678'
 }];
 
