@@ -1,13 +1,6 @@
-export type List = {
-    payload: string;
-    shownValue: string;
-};
+import { NodeKind } from '@kubevious/entity-meta';
 
 export type KindListValue = {
     title: string;
-    payload: string;
+    kind: NodeKind;
 };
-
-export interface KindList extends List {
-    values: KindListValue[];
-}

@@ -89,7 +89,7 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
             searchData = { components: {} };
         }
 
-        for(let filter of this._filterList) {
+        for(const filter of this._filterList) {
             if (!searchData.components[filter.searchId]) {
                 searchData.components[filter.searchId] = {
                     searchId: filter.searchId,

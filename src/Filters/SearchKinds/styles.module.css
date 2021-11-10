@@ -1,0 +1,13 @@
+.kindList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-left: 4px;
+    gap: 5px;
+}
+
+.nodeKind {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
