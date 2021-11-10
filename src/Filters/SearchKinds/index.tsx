@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react';
-import { KindListValue } from './types';
+import React, { FC } from 'react';
 import _ from 'lodash';
 import { FilterComponentProps } from '../types';
-import { TOP_ROOTS, NODE_LABELS } from '@kubevious/entity-meta';
+import { TOP_ROOTS, NODE_LABELS, NodeKind } from '@kubevious/entity-meta';
 import { DnComponent, DnIconComponent } from '@kubevious/ui-components';
 import { Checkbox } from '@kubevious/ui-components';
 
@@ -12,21 +11,13 @@ import styles from './styles.module.css';
 export const FilterSearchKinds: FC<FilterComponentProps> = ({ data, addFilter, removeAllFilters }) => {
     const selectedKinds = data.filters;
 
-    const [kinds] = useState<KindListValue[]>(makeKindList());
-
     const kindFilterChange = (kind: NodeKind, e: React.ChangeEvent): void => {
-        console.log("[FilterSearchKinds] [kindFilterChange] item: ", kind);
-
         removeAllFilters(e);
 
         if (!selectedKinds[kind]) {
             addFilter(kind, NODE_LABELS.get(kind), true);
         }
-
-        console.log("[FilterSearchKinds] [kindFilterChange] selectedKinds: ", selectedKinds);
     };
-
-    console.log("[FilterSearchKinds] selectedKinds: ", selectedKinds);
 
     return (
         <div className={commonStyles.innerItems}>
@@ -55,24 +46,3 @@ export const FilterSearchKinds: FC<FilterComponentProps> = ({ data, addFilter, r
         </div>
     );
 };
-
-
-function makeKindList()
-{
-    const items : KindListValue[] = [];
-    for(const root of TOP_ROOTS)
-    {
-        for(const kind of root.subNodes)
-        {
-            const label = NODE_LABELS.get(kind);
-            if (label) {
-                items.push({
-                    title: label,
-                    kind: kind
-                })
-            }
-        }
-    }
-    
-    return items;
-}
