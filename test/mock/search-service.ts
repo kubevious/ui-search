@@ -11,6 +11,7 @@ export class SearchService implements ISearchService {
     close() {}
 
     fetchSearchResults(criteria: any) {
+        console.log("[SearchService] criteria: ", criteria);
         if (!criteria) {
             return Promise.resolve({
                 results: [],
@@ -30,7 +31,7 @@ export class SearchService implements ISearchService {
         this._counter ++;
         const items : SearchQueryItem[] = _.cloneDeep(app.sharedState.get("mock_search_result") || []);
 
-        for(let x of items)
+        for(const x of items)
         {
             x.dn = x.dn.replaceAll("gprod-addr-main-app", `gprod-addr-main-app-${this._counter}`)
         }
