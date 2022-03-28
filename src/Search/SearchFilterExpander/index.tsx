@@ -1,8 +1,7 @@
 import _ from 'the-lodash';
 import React, { FC, useState } from 'react';
 import { FilterComponentData, FilterMetaData } from '../../types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon, FASolidIcons } from '@kubevious/ui-components';
 
 import styles from './styles.module.css';
 
@@ -23,14 +22,14 @@ export const SearchFilterExpander: FC<{
     return (
         <details open={isOpen} key={filter.payload}>
             <summary onClick={handleToggle} className={styles.expanderContent}>
-                <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} style={{ marginRight: '5px' }} />
+                <FontAwesomeIcon icon={isOpen ? FASolidIcons.faChevronUp : FASolidIcons.faChevronDown} style={{ marginRight: '5px' }} />
 
                 {filter.title}
 
                 {isActive && (
                     <FontAwesomeIcon
                         className={styles.clearButton}
-                        icon={faTimes}
+                        icon={FASolidIcons.faTimes}
                         onClick={removeAllFilters}
                         title="Delete used filters"
                         color="#FFFFFF"

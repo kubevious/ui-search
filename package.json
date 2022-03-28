@@ -26,10 +26,6 @@
     "url": "https://github.com/kubevious/ui-search"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-regular-svg-icons": "^5.15.1",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/react-fontawesome": "^0.1.12",
     "@kubevious/entity-meta": "^1.0.42",
     "@kubevious/ui-components": "^1.0.182",
     "@kubevious/ui-framework": "^1.0.50",
