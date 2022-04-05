@@ -29,7 +29,7 @@ export class SearchService implements ISearchService {
         }
         
         this._counter ++;
-        const items : SearchQueryItem[] = _.cloneDeep(app.sharedState.get("mock_search_result") || []);
+        const items : SearchQueryItem[] = _.cloneDeep(app.sharedState.get<SearchQueryItem[]>("mock_search_result", []));
 
         for(const x of items)
         {
