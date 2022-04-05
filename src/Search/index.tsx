@@ -75,12 +75,12 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
 
         this._filterList = this.props.filterList;
 
-        let searchData: SearchData | undefined = undefined;
+        let searchData: SearchData | null | undefined = undefined;
         if (props.initSearchData) {
             searchData = props.initSearchData!;
         }
         if (!searchData) {
-            searchData = this.sharedState.get('search_filter_data');
+            searchData = this.sharedState.tryGet<SearchData>('search_filter_data') ;
         }
 
         if (searchData) {

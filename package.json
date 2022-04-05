@@ -26,10 +26,10 @@
     "url": "https://github.com/kubevious/ui-search"
   },
   "dependencies": {
-    "@kubevious/entity-meta": "^1.0.42",
-    "@kubevious/ui-components": "^1.0.182",
-    "@kubevious/ui-framework": "^1.0.50",
-    "@kubevious/ui-middleware": "^1.0.40",
+    "@kubevious/entity-meta": "^1.0.56",
+    "@kubevious/ui-components": "^1.0.207",
+    "@kubevious/ui-framework": "^1.0.59",
+    "@kubevious/ui-middleware": "^1.0.46",
     "classnames": "^2.2.6",
     "react": "^17.0.2",
     "react-autocomplete": "^1.8.1",
