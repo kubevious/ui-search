@@ -29,7 +29,6 @@ export const AutocompleteInput: FC<AutocompleteInputProps> = ({
     const [hideTimer, setHideTimer] = useState<any>(null);
 
     const onFocus = () => {
-        console.log("onFocus ");
         setIsFocused(true);
         setIsVisible(true);
         if (hideTimer) {
@@ -38,16 +37,13 @@ export const AutocompleteInput: FC<AutocompleteInputProps> = ({
         setHideTimer(null);
     }
     const onBlur = () => {
-        console.log("onBlur ");
         setIsFocused(false);
     }
     const onChange = (newValue: string) => {
-        console.log("onChange ", newValue);
         handleInput(newValue);
     }
 
     const activateItem = (newValue: string) => {
-        console.log("activateItem: ", newValue);
         setIsFocused(false);
         handleInput(newValue);
     }

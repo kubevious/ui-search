@@ -90,7 +90,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
     };
 
     return (
-        <div className={styles.filterInputBox}>
+        <div className={styles.filterInputBox} ref={annotationsRef}>
             <Fragment key="Annotation">
                 <AutocompleteInput
                     value={currentKey}

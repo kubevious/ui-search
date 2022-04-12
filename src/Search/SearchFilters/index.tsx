@@ -21,7 +21,17 @@ export const SearchFilters: FC<{
             filter,
             value,
         });
-        refs[type].current.scrollIntoView({ block: 'start' });
+        const ref = refs[type];
+        if (!ref) {
+            console.error("REF for ", type, " not found.")
+            return;
+        }
+        const currentRef = ref.current;
+        if (!ref) {
+            console.error("CurrentREF for ", type, " not found.")
+            return;
+        }
+        currentRef.scrollIntoView({ block: 'start' });
     };
 
     const renderActiveFilter = (val: FilterValue) => {

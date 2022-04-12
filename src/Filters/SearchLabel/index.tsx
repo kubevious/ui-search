@@ -91,7 +91,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
     };
 
     return (
-        <div className={styles.filterInputBox}>
+        <div className={styles.filterInputBox} ref={labelsRef}>
             <Fragment key="Label">
                 <AutocompleteInput
                     value={currentKey}
