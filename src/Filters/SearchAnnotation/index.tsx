@@ -1,12 +1,11 @@
 import React, { Fragment, useState, FC, useRef } from 'react';
-import Autocomplete from 'react-autocomplete';
 
 import { FilterComponentProps } from '../types';
-import { sharedState } from '@kubevious/ui-framework/dist/global';
 import { useService, useSharedState } from '@kubevious/ui-framework';
 import { ISearchService } from '@kubevious/ui-middleware';
 
 import styles from '../styles.module.css';
+import { AutocompleteInput } from '../../AutocompleteInput';
 
 export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, removeFilter }) => {
     const [currentValue, setCurrentValue] = useState<string>('');
@@ -54,7 +53,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         [autocompleteKey, autocompleteValue],
     );
 
-    useSharedState((sharedState) => {
+    const sharedState = useSharedState((sharedState) => {
         sharedState.subscribe('edited_filter_annotations', (edited_filter_annotations) => {
             if (edited_filter_annotations) {
                 setEditedAnnotations(edited_filter_annotations || {});
@@ -79,7 +78,7 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         setCurrentValue('');
         setCurrentKey('');
         setEditedAnnotations({});
-        sharedState.set('edited_filter_annotations', null);
+        sharedState!.set('edited_filter_annotations', null);
     };
 
     const handleClearFilter = (key?: string) => {
@@ -87,43 +86,28 @@ export const FilterSearchAnnotation: FC<FilterComponentProps> = ({ addFilter, re
         setCurrentValue('');
         setCurrentKey('');
         setEditedAnnotations({});
-        sharedState.set('edited_filter_annotations', null);
+        sharedState!.set('edited_filter_annotations', null);
     };
 
     return (
         <div className={styles.filterInputBox}>
             <Fragment key="Annotation">
-                <Autocomplete
-                    getItemValue={(value) => value}
-                    items={autocompleteKeyResults}
+                <AutocompleteInput
                     value={currentKey}
-                    onChange={(e) => handleKeyInput(e.target.value)}
-                    onSelect={(val) => handleKeyInput(val)}
-                    renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => (
-                        <input
-                            disabled={!!editedAnnotations.filter}
-                            className={styles.input}
-                            placeholder="Annotation"
-                            {...props}
-                        />
-                    )}
-                    onMenuVisibilityChange={() => handleKeyInput(currentKey)}
-                />
-                <Autocomplete
-                    getItemValue={(value) => value}
-                    items={autocompleteValueResults}
+                    items={autocompleteKeyResults}
+                    isDisabled={!!editedAnnotations.filter}
+                    placeholder="Annotation"
+                    handleInput={handleKeyInput}
+                    />
+
+                <AutocompleteInput
                     value={currentValue}
-                    onChange={(e) => handleValueInput(e.target.value)}
-                    onSelect={(val) => handleValueInput(val)}
-                    renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => (
-                        <input disabled={!currentKey.trim()} className={styles.input} placeholder="Value" {...props} />
-                    )}
-                    onMenuVisibilityChange={() => handleValueInput(currentValue)}
-                />
+                    items={autocompleteValueResults}
+                    isDisabled={!currentKey.trim()}
+                    placeholder="Value"
+                    handleInput={handleValueInput}
+                    />
+
             </Fragment>
             {currentKey.trim() && currentValue.trim() && (
                 <div className={styles.filterInputBtns}>

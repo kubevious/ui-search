@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import React from 'react';
+import React, { FC } from 'react';
 import { FilterMetaData, FilterComponentData, SearchData } from '../../types';
 import { SearchFilterExpander } from '../SearchFilterExpander';
 import cx from 'classnames';
@@ -24,7 +24,7 @@ export interface SearchFilterListProps {
     removeAllFilters(searchId: string): void;
 }
 
-export const SearchFilterList: React.FunctionComponent<SearchFilterListProps> = ({
+export const SearchFilterList: FC<SearchFilterListProps> = ({
     filterList,
     searchData,
     addFilter,

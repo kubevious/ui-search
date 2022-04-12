@@ -45,7 +45,12 @@ export class SearchService implements ISearchService {
 
     autocompleteLabelKeys()
     {
-        return Promise.resolve(["l-foo1", "l-foo2", "l-foo3"]);
+        const list : string[] = [];
+        for(let i = 0; i < 50; i++) {
+            list.push(`l-foo-${i}`);
+        }
+
+        return Promise.resolve(list);
     }
 
     autocompleteLabelValues()

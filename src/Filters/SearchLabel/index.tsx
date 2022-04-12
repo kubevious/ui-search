@@ -1,6 +1,5 @@
 import React, { Fragment, useState, FC, useRef } from 'react';
-import Autocomplete from 'react-autocomplete';
-import { sharedState } from '@kubevious/ui-framework/dist/global';
+import { AutocompleteInput } from '../../AutocompleteInput';
 
 import { ISearchService } from '@kubevious/ui-middleware';
 import { useService, useSharedState } from '@kubevious/ui-framework';
@@ -55,7 +54,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         [autocompleteKey, autocompleteValue],
     );
 
-    useSharedState((sharedState) => {
+    const sharedState = useSharedState((sharedState) => {
         sharedState.subscribe('edited_filter_labels', (edited_filter_labels) => {
             if (edited_filter_labels) {
                 setEditedLabels(edited_filter_labels || {});
@@ -80,7 +79,7 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         setCurrentValue('');
         setCurrentKey('');
         setEditedLabels({});
-        sharedState.set('edited_filter_labels', null);
+        sharedState!.set('edited_filter_labels', null);
     };
 
     const handleClearFilter = (key?: string) => {
@@ -88,43 +87,27 @@ export const FilterSearchLabel: FC<FilterComponentProps> = ({ addFilter, removeF
         setCurrentValue('');
         setCurrentKey('');
         setEditedLabels({});
-        sharedState.set('edited_filter_labels', null);
+        sharedState!.set('edited_filter_labels', null);
     };
 
     return (
         <div className={styles.filterInputBox}>
             <Fragment key="Label">
-                <Autocomplete
-                    getItemValue={(value) => value}
-                    items={autocompleteKeyResults}
+                <AutocompleteInput
                     value={currentKey}
-                    onChange={(e) => handleKeyInput(e.target.value)}
-                    onSelect={(val) => handleKeyInput(val)}
-                    renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => (
-                        <input
-                            placeholder="Label"
-                            disabled={!!editedLabels.filter}
-                            className={styles.input}
-                            {...props}
-                        />
-                    )}
-                    onMenuVisibilityChange={() => handleKeyInput(currentKey)}
-                />
-                <Autocomplete
-                    getItemValue={(value) => value}
-                    items={autocompleteValueResults}
+                    items={autocompleteKeyResults}
+                    isDisabled={!!editedLabels.filter}
+                    placeholder="Label"
+                    handleInput={handleKeyInput}
+                    />
+
+                <AutocompleteInput
                     value={currentValue}
-                    onChange={(e) => handleValueInput(e.target.value)}
-                    onSelect={(val) => handleValueInput(val)}
-                    renderItem={(content) => <div>{content}</div>}
-                    renderMenu={(items) => <div className={styles.autocomplete} children={items} />}
-                    renderInput={(props) => (
-                        <input placeholder="Value" disabled={!currentKey.trim()} className={styles.input} {...props} />
-                    )}
-                    onMenuVisibilityChange={() => handleValueInput(currentValue)}
-                />
+                    items={autocompleteValueResults}
+                    isDisabled={!currentKey.trim()}
+                    placeholder="Value"
+                    handleInput={handleValueInput}
+                    />
             </Fragment>
 
             {currentKey.trim() && currentValue.trim() && (
