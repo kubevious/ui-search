@@ -1,6 +1,5 @@
 import { Input } from '@kubevious/ui-components';
 import React, { FC, useState } from 'react';
-import cx from 'classnames';
 
 import styles from './style.module.css';
 import { FontAwesomeIcon, FASolidIcons } from '@kubevious/ui-components';
