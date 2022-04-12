@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@kubevious/entity-meta": "^1.0.56",
-    "@kubevious/ui-components": "^1.0.218",
+    "@kubevious/ui-components": "^1.0.219",
     "@kubevious/ui-framework": "^1.0.59",
     "@kubevious/ui-middleware": "^1.0.61",
     "classnames": "^2.2.6",
