@@ -19,7 +19,7 @@ export const SearchInput: FC<SearchInputProps> = ({ updateSearchCriteria }) => {
     };
 
     return (
-        <div className={cx('form-group d-flex mb-3', styles.wrapper)}>
+        <div className={styles.inputContainer}>
             <Input
                 type="text"
                 placeholder="Search"

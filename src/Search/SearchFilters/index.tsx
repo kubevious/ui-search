@@ -69,5 +69,7 @@ export const SearchFilters: FC<{
         );
     };
 
-    return <div className={styles.activeFilters}>{activeFilters.map((val) => renderActiveFilter(val))}</div>;
+    return <div className={styles.activeFilters}>
+        {activeFilters.map((val) => renderActiveFilter(val))}
+    </div>;
 };

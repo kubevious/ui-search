@@ -1,3 +1,4 @@
-.wrapper > div {
-    width: 100%;
+.inputContainer {
+    display: flex;
+    flex-direction: column;
 }

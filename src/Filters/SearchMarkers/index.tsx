@@ -10,14 +10,14 @@ export const FilterSearchMarkers: FC<FilterComponentProps> = ({ data, addFilter,
     const [markers, setMarkers] = useState<MarkerConfig[]>([]);
 
     useSharedState((sharedState) => {
-        sharedState.set('need_markers_list', true);
+        sharedState.markUserFlag('need_markers_list', 'search-page');
 
         sharedState.subscribe('markers_list', (markers_list) => {
             setMarkers(markers_list || []);
         });
 
         return () => {
-            sharedState.set('need_markers_list', false);
+            sharedState.clearUserFlag('need_markers_list', 'search-page');
         };
     });
 

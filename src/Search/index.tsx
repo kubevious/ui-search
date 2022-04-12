@@ -11,6 +11,7 @@ import { SearchFilterList } from './SearchFilterList';
 
 import styles from './styles.module.css';
 import { SearchQueryItem } from '@kubevious/ui-middleware/dist/services/search';
+import { ScrollbarComponent } from '@kubevious/ui-components/dist';
 
 interface TSearchState {
     searchData: SearchData;
@@ -328,8 +329,11 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
         const { activeFilters, searchData, wasFiltered, results, totalCount } = this.state;
 
         return (
-            <div data-testid="search" className="d-flex flex-column p-40 overflow-hide text-white">
+            <div data-testid="search"
+                 className={styles.searchContainer}>
+
                 <SearchInput updateSearchCriteria={this.setFullTextCriteria} />
+
                 <SearchFilters
                     filterList={this._filterList}
                     activeFilters={activeFilters}
@@ -337,20 +341,32 @@ export class Search extends ClassComponent<SearchProps, TSearchState, ISearchSer
                     toggleVisibilityFilter={this.toggleVisibilityFilter}
                     refs={this.state.refs}
                     />
-                <div className={styles.searchArea}>
-                    <SearchFilterList
-                        filterList={this._filterList}
-                        searchData={searchData}
-                        addFilter={this.addFilter}
-                        removeFilter={this.removeFilter}
-                        removeAllFilters={this.removeAllFilters}
-                        />
 
-                    <SearchResults
-                        wasFiltered={wasFiltered}
-                        result={results}
-                        totalCount={totalCount}
-                        />
+                <div className={styles.searchArea}>
+
+                    <div className={styles.searchFilters}>
+
+                        <ScrollbarComponent>
+                            <SearchFilterList
+                                filterList={this._filterList}
+                                searchData={searchData}
+                                addFilter={this.addFilter}
+                                removeFilter={this.removeFilter}
+                                removeAllFilters={this.removeAllFilters}
+                                />
+                        </ScrollbarComponent> 
+                    </div>
+
+                    <div className={styles.searchResults}>
+                        <ScrollbarComponent>
+                            <SearchResults
+                                wasFiltered={wasFiltered}
+                                result={results}
+                                totalCount={totalCount}
+                                />
+                        </ScrollbarComponent> 
+                    </div>
+
                 </div>
             </div>
         );

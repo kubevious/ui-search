@@ -1,5 +1,30 @@
-.searchArea {
-    display: flex;
+.searchContainer {
     height: 100%;
-    overflow-y: hidden;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.searchArea {
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    min-height: 100px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+
+.searchFilters {
+    width: 300px;
+}
+
+.searchResults {
+    flex-grow: 1;
+    flex-shrink: 1;
 }

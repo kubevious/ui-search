@@ -10,7 +10,7 @@ import {
     FilterSearchWarnings,
 } from '..';
 import { setupMock } from '../../test/mock/mock';
-import { Search } from '../Search';
+import { Search } from '.';
 import { FilterMetaData, SearchData } from '../types';
 
 import { app } from '@kubevious/ui-framework';
@@ -69,10 +69,19 @@ const SEARCH_FILTER_METADATA: FilterMetaData[] = [
 
 setupMock();
 
+export const ComponentOnly: Story = () => {
+    return (
+        <div style={{ background: '#2f3036', height: "600px", padding: "20px" }}>
+            <Search filterList={SEARCH_FILTER_METADATA}
+                    initSearchData={SAMPLE_EMPTY_FILTER} />
+        </div>
+    )
+};
+
 export const NoCriteria: Story = () => {
     return (
-        <div style={{ background: '#2f3036' }}>
-            <InnerPage header={<PageHeader title="Search" />}>
+        <div style={{ background: '#2f3036', height: "100vh" }}>
+            <InnerPage header={<PageHeader title="Search" />} fullHeight>
                 <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_EMPTY_FILTER} />
             </InnerPage>
         </div>
@@ -81,19 +90,32 @@ export const NoCriteria: Story = () => {
 
 
 export const SomeResults: Story = () => (
-    <div style={{ background: '#2f3036' }}>
+    <div style={{ background: '#2f3036', height: "100vh" }}>
         <CallbackHook
             setup={() => app.sharedState.set("mock_search_result", SAMPLE_SEARCH_RESULTS)}
             cleanup={() => app.sharedState.set("mock_search_result", null)}
         />
-        <InnerPage header={<PageHeader title="Search" />}>
+        <InnerPage header={<PageHeader title="Search" />} fullHeight>
             <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER} />
         </InnerPage>
     </div>
 );
 
+export const LotsOfResults: Story = () => (
+    <div style={{ background: '#2f3036', height: "100vh" }}>
+        <CallbackHook
+            setup={() => app.sharedState.set("mock_search_result", SAMPLE_MANY_SEARCH_RESULTS)}
+            cleanup={() => app.sharedState.set("mock_search_result", null)}
+        />
+        <InnerPage header={<PageHeader title="Search" />} fullHeight>
+            <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER} />
+        </InnerPage>
+    </div>
+);
+
+
 export const EmptyResults: Story = () => (
-    <div style={{ background: '#2f3036' }}>
+    <div style={{ background: '#2f3036', height: "100vh" }}>
         <CallbackHook
             setup={() => {
                 app.sharedState.set("mock_search_result", [])
@@ -102,19 +124,19 @@ export const EmptyResults: Story = () => (
                 app.sharedState.set("mock_search_result", null)
             }}
         />
-        <InnerPage header={<PageHeader title="Search" />}>
+        <InnerPage header={<PageHeader title="Search" />} fullHeight>
             <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER2} />
         </InnerPage>
     </div>
 );
 
 export const ClusteredResults: Story = () => (
-    <div style={{ background: '#2f3036' }}>
+    <div style={{ background: '#2f3036', height: "100vh" }}>
         <CallbackHook
             setup={() => app.sharedState.set("mock_search_result", SAMPLE_SEARCH_RESULTS_CLUSTERED)}
             cleanup={() => app.sharedState.set("mock_search_result", null)}
         />
-        <InnerPage header={<PageHeader title="Search" />}>
+        <InnerPage header={<PageHeader title="Search" />} fullHeight>
             <Search filterList={SEARCH_FILTER_METADATA} initSearchData={SAMPLE_KIND_FILTER} />
         </InnerPage>
     </div>
@@ -126,6 +148,16 @@ const SAMPLE_SEARCH_RESULTS : SearchQueryItem[] = [{
     dn: 'root/logic/ns-[kube-system]'
 }];
 
+const SAMPLE_MANY_SEARCH_RESULTS : SearchQueryItem[] = [{
+    dn: 'root/logic/ns-[addr]/app-[gprod-addr-main-app]'
+}, {
+    dn: 'root/logic/ns-[kube-system]'
+}];
+for(let i = 0; i < 200; i++) {
+    SAMPLE_MANY_SEARCH_RESULTS.push({
+        dn: `root/logic/ns-[kube-system]/app-[${i}]`
+    })
+}
 
 
 const SAMPLE_SEARCH_RESULTS_CLUSTERED = [{

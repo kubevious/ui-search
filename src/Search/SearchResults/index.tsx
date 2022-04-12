@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { DnResults } from '@kubevious/ui-components';
+import { DnResults, Label } from '@kubevious/ui-components';
 import { LIMITED_RESULTS_MSG, NO_ITEMS_MATCHING_MSG, NO_SEARCH_RESULT_MSG } from '../constants';
 import { isEmptyArray } from '../util';
 
@@ -18,8 +18,9 @@ export const SearchResults : FC<SearchResultsProps> = ({ wasFiltered, result, to
     return (
         <div className={styles.searchResults}>
             {isEmptyArray(result!) ? (
-                <div className={styles.resultPlaceholder}>
-                    {wasFiltered ? NO_ITEMS_MATCHING_MSG : NO_SEARCH_RESULT_MSG}
+                <div className={styles.centeredMessage}>
+                    <Label text={wasFiltered ? NO_ITEMS_MATCHING_MSG : NO_SEARCH_RESULT_MSG}
+                           size="xlarge" />
                 </div>
             ) : (
                 <>
@@ -27,7 +28,10 @@ export const SearchResults : FC<SearchResultsProps> = ({ wasFiltered, result, to
                         <DnResults items={result} />
                     }
                     {result!.length < totalCount && (
-                        <div className={styles.limitedResultsMsg}>{LIMITED_RESULTS_MSG}</div>
+                        <div className={styles.centeredMessage}>
+                            <Label text={LIMITED_RESULTS_MSG}
+                                   size="xlarge" />
+                        </div>
                     )}
                 </>
             )}

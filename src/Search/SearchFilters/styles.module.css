@@ -1,13 +1,11 @@
 .activeFilters {
+    min-height: 30px;
+
     position: relative;
     max-height: 300px;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-
-.activeFilters:empty {
-    height: 3rem;
+    gap: 10px;
 }
 
 .activeFilterBox {
@@ -17,8 +15,6 @@
     font-size: 14px;
     line-height: 16px;
     padding: 1px;
-    margin-right: 10px;
-    margin-bottom: 10px;
 }
 
 .filterKey {

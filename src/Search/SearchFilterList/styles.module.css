@@ -10,14 +10,5 @@
     display: flex;
     flex-flow: column;
     flex-basis: 15%;
-    margin-right: 50px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    max-height: -webkit-fill-available;
-    max-height: -moz-fit-content;
-    padding-right: 5px;
-    overflow-y: auto;
-    overflow-x: hidden;
     position: relative;
 }
