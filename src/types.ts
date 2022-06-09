@@ -1,3 +1,5 @@
+import { FilterComponentProps } from './Filters/types';
+
 export interface FilterMetaData {
     searchId: string;
     payload: string;
@@ -17,14 +19,6 @@ export interface FilterCriteria {
     values: any;
 }
 
-export interface FilterComponentProps {
-    data: FilterComponentData;
-    addFilter: (filterId: string, caption: string, value: any, ref?: React.MutableRefObject<null>) => void;
-    removeFilter: (filterId: string) => void;
-    removeAllFilters: (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<SVGSVGElement, MouseEvent>,
-    ) => void;
-}
 
 /*******/
 
