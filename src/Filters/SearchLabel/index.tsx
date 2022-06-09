@@ -4,7 +4,7 @@ import { AutocompleteInput } from '../../AutocompleteInput';
 import { ISearchService } from '@kubevious/ui-middleware';
 import { useService, useSharedState } from '@kubevious/ui-framework';
 
-import { FilterComponentProps } from '../../types';
+import { FilterComponentProps } from '../types';
 
 import styles from '../styles.module.css';
 
